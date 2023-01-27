@@ -1,12 +1,12 @@
 import React from 'react';
 import CardView from './CardView';
-// import SideBar from './SideBar';
+import SideBar from './SideBar';
 
 const AllProducts = ({products}) => {
   return (
     <div className="outline">
       <div className="all-outline">
-        {/* <SideBar /> */}
+        <SideBar products={products}/>
 
         <div className="card-outline">
           {products.length ? (

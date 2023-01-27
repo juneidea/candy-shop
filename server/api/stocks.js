@@ -39,15 +39,15 @@ router.get('/categories', async (req, res, next) => {
 // Accessibility: For all users
 router.get('/:stockId', async (req, res, next) => {
   try {
-    console.log('==Are we hitting at singleview server==', req.params.stockId);
-    const candy = await Stock.findById(req.params.stockId);
+    const candy = await Stock.findOne({ where: { id: req.params.stockId },
+      include: [{ model: Rating }, { model: Images }, { model: Category }]
+    });
     res.status(200).json(candy);
   } catch (err) {
     next(err);
   }
 });
 
-// Create a candy product(stock).
 // Actual path: /api/stocks
 // Create a new candy product(stock).
 // Accessibility: For Admin only. (Need to add..)
@@ -73,7 +73,7 @@ router.post('/', async (req, res, next) => {
 // Accessibility: For Admin only. (Need to add..)
 router.put('/:stockId', async (req, res, next) => {
   try {
-    const oldCandy = await Stock.findById(req.params.stockId);
+    const oldCandy = await Stock.findByPk(req.params.stockId);
     const updatedCandy = await oldCandy.update(req.body);
     res.status(200).json(updatedCandy);
   } catch (err) {

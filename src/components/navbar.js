@@ -64,7 +64,7 @@ const Navbar = (props) => {
     <div className="nav-outline">
       <div className="navRow">
         <div>
-          <img src="./images/wLogo.png" alt="wLogo" className="wLogo" />
+          <img src="/images/wLogo.png" alt="wLogo" className="wLogo" />
         </div>
         <div className="dropdown1">
           <button className="dropbtn1" onClick={routeChange1}>
@@ -248,7 +248,7 @@ const Navbar = (props) => {
           </button>
           <div className="bag">
             {/* <span>{props.cart[0] && candyCount(props.cart)}</span> */}
-            <img src="./images/shoppingBag.png" alt="shoppingBag" id="bag" />
+            <img src="/images/shoppingBag.png" alt="shoppingBag" id="bag" />
           </div>
         </div>
       </div>

@@ -1,0 +1,185 @@
+import React, { useEffect, useState} from 'react';
+import { useParams } from 'react-router-dom';
+
+const SingleProduct = props => {
+  const params = useParams()
+  const [product, setProduct] = useState({})
+  const [imagesArray, setImagesArray] = useState([])
+  useEffect(() => {
+    fetch(`/api/stocks/${params.id}`).then((res) => res.json()).then((data) => {
+      setProduct(data)
+      setImagesArray(sortImages(data.images))
+    })
+  },[])
+
+  function sortImages(images) {
+    let min = 1000;
+    let ans = [];
+    for (let i = 0; i < images.length; i++) {
+      if (images[i].id < min) min = images[i].id;
+    }
+    for (let j = 0; j < images.length; j++) {
+      if (images.filter(im => im.id === min)[0]) {
+        ans.push(images.filter(im => im.id === min)[0]);
+        min += 1;
+      } else {
+        min += 1;
+        j--;
+      }
+    }
+    return ans;
+  }
+
+  const addUp = id => {
+    const qty = document.getElementsByName(`q${id}`);
+    let value = Number(qty[0].value);
+    qty[0].value = value + 1;
+  };
+  const cutDown = id => {
+    const qty = document.getElementsByName(`q${id}`);
+    let value = Number(qty[0].value);
+    if (value > 1) qty[0].value = value - 1;
+    else qty[0].value = 1;
+  };
+
+  const submitResult = stockId => {
+    const qty = document.getElementsByName(`q${stockId}`);
+    const cartId = props.info.id;
+    const value = Number(qty[0].value);
+
+    if (props.cart.filter(stock => stock.stockId === stockId)[0]) {
+      const quantity =
+        props.cart.filter(stock => stock.stockId === stockId)[0].quantity +
+        value;
+      props.updateItemQuantity({
+        stockId,
+        cartId,
+        quantity
+      });
+    } else {
+      props.postItems(cartId, {
+        stockId,
+        cartId,
+        quantity: value
+      });
+    }
+  };
+
+  function currentDiv(n) {
+    let slideIndex = n;
+    let x = document.getElementsByClassName('mySlides');
+    var dots = document.getElementsByClassName('demo');
+    if (n > x.length) {
+      slideIndex = 1;
+    }
+    if (n < 1) {
+      slideIndex = x.length;
+    }
+    for (let i = 0; i < x.length; i++) {
+      x[i].className = 'mySlides hide';
+    }
+    for (let i = 0; i < dots.length; i++) {
+      dots[i].className = dots[i].className.replace('opacity-off', '');
+    }
+    x[slideIndex - 1].className = 'mySlides';
+    dots[slideIndex - 1].className =
+      'demo opacity opacity-off hover-opacity-off';
+  }
+
+  return (
+    <div className="main-outline">
+      <div className="single-outline">
+        <div className="productName">
+          {product && product.name && <h1>{product.name.toUpperCase() + ' $' + product.price}</h1>}
+          <div className="qty-bar2">
+            <span className="qty-text2">QTY</span>
+            <input
+              type="text"
+              className="qty2"
+              name={`q${product.id}`}
+              defaultValue="1"
+            />
+            <span
+              className="qty-sign2"
+              onClick={() => {
+                cutDown(product.id);
+              }}
+            >
+              -
+            </span>
+            <span
+              className="qty-sign"
+              onClick={() => {
+                addUp(product.id);
+              }}
+            >
+              +
+            </span>
+          </div>
+          <button
+            onClick={() => {
+              submitResult(product.id, product.price);
+            }}
+            type="button"
+          >
+            {' '}
+            ADD TO BAG
+          </button>
+        </div>
+
+        <div className="s-outline">
+          {imagesArray[0] &&
+            imagesArray.map(m => {
+              return (
+                <div key={m.id}>
+                  <img
+                    className={m.id === imagesArray[0].id ? 'mySlides' : 'mySlides hide'}
+                    src={m.imageUrl}
+                    alt={m.name}
+                  />
+                </div>
+              );
+            })}
+
+          <div className="s-row">
+            {imagesArray[0] &&
+              imagesArray.map((m, i) => {
+                return (
+                  <div key={m.id}>
+                    <img
+                      className={
+                        i === 0
+                          ? 'demo opacity opacity-off hover-opacity-off'
+                          : 'demo opacity hover-opacity-off'
+                      }
+                      src={m.imageUrl}
+                      alt={m.name}
+                      onClick={() => {
+                        currentDiv(i + 1);
+                      }}
+                    />
+                  </div>
+                );
+              })}
+          </div>
+        </div>
+
+        <div className="review">
+          <hr />
+          <h4>SHIPPING INFO</h4>
+          <p>
+            This item typically ships within 1-2 business days. This processing
+            time is in addition to time in transit via your chosen shipping
+            method.
+          </p>
+          <hr />
+          <h4>WHY YOU WANT THIS</h4>
+          <p>{product.description}</p>
+          <hr />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default SingleProduct

@@ -349,7 +349,6 @@ button:focus {
 .all-outline {
   padding-top: 95px;
   padding-bottom: 150px;
-  position: absolute;
   display: flex;
   margin: auto;
 }

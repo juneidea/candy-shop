@@ -60,7 +60,7 @@ const CardView = props => {
     <div className="single-card-outline">
       <div className="card">
         <div className="card-img">
-          <Link to={`/products/${product.id}`}>
+          <Link to={`/product/${product.id}`}>
             <img
               src={product.images && sortImages(product.images)[0].imageUrl}
               alt={product.name}
