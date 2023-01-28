@@ -3,22 +3,15 @@ import React from 'react';
 const SideBar = ({all, products, setFilter}) => {
 
   function sortCandy(stock, type) {
-    let ans = [];
-    for (let i = 0; i < stock.length; i++) {
-      for (let j = 0; j < stock[i].categories.length; j++) {
-        if (stock[i].categories[j].id === type) {
-          stock[i].categories.map(c => {
-            if (c.id !== type) ans.push(`${c.category_name}_${c.id}`);
-            return c
-          });
-        }
-      }
-    }
-    let ans2 = [];
+    const ans = [];
+    const main = stock.filter(s => s.categories.find(c => c.id === type))
+    main.map(m => m.categories.forEach(c => {
+      if (c.id !== type) ans.push(`${c.category_name}_${c.id}`);
+    }))
+    const ans2 = [];
     for (let i = 0; i < ans.length; i++) {
-      ans2.map(a => {
+      ans2.forEach(a => {
         if (a[0] === ans[i]) a.push(ans[i]);
-        return a
       });
       if (ans2.filter(a => a[0] === ans[i])[0] === undefined) ans2.push([ans[i]]);
     }

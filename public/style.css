@@ -109,6 +109,7 @@ button:focus {
 .dropbtn4 {
   background-color: rgb(76, 161, 108);
   color: white;
+  cursor: pointer;
   height: 70px;
   padding: 16px;
   font-size: 16px;
@@ -126,6 +127,7 @@ button:focus {
 .dropbtn5 {
   background-color: rgb(57, 149, 185);
   color: white;
+  cursor: pointer;
   height: 70px;
   padding: 16px;
   font-size: 16px;
@@ -193,11 +195,13 @@ button:focus {
   min-width: 180px;
   z-index: 4;
 }
-.dropdown-content2 a {
+.dropdown-content2 span {
   color: white;
+  cursor: default;
   padding: 12px 16px;
   text-decoration: none;
   display: block;
+  user-select: none;
 }
 .dropdown2:hover .dropdown-content2 {
   display: block;
@@ -218,11 +222,13 @@ button:focus {
   min-width: 128px;
   z-index: 4;
 }
-.dropdown-content3 a {
+.dropdown-content3 span {
   color: white;
+  cursor: default;
   padding: 12px 16px;
   text-decoration: none;
   display: block;
+  user-select: none;
 }
 .dropdown3:hover .dropdown-content3 {
   display: block;
@@ -486,6 +492,7 @@ button:focus {
   line-height: 32px;
   font-family: Georgia;
   cursor: pointer;
+  user-select: none;
 }
 
 .productText p {
@@ -581,6 +588,7 @@ button:focus {
   line-height: 32px;
   font-family: Georgia;
   cursor: pointer;
+  user-select: none;
 }
 
 .productName input {
