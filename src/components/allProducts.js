@@ -1,16 +1,20 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import CardView from './CardView';
 import SideBar from './SideBar';
 
 const AllProducts = ({products}) => {
+  const [filteredProducts, setFilteredProducts] = useState([])
+  useEffect(() => {
+    setFilteredProducts(products)
+  }, [products])
   return (
     <div className="outline">
       <div className="all-outline">
-        <SideBar products={products}/>
+        <SideBar all={products} products={filteredProducts} setFilter={setFilteredProducts} />
 
         <div className="card-outline">
-          {products.length ? (
-            products.map(product => {
+          {filteredProducts.length ? (
+            filteredProducts.map(product => {
               return (
                 <div key={product.id}>
                   <CardView product={product} />

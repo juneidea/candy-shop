@@ -1,5 +1,5 @@
 import React, { useEffect, useState} from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 
 const SingleProduct = props => {
   const params = useParams()
@@ -90,7 +90,7 @@ const SingleProduct = props => {
     <div className="main-outline">
       <div className="single-outline">
         <div className="productName">
-          {product && product.name && <h1>{product.name.toUpperCase() + ' $' + product.price}</h1>}
+          {product && product.name && <h1><span>{product.name.toUpperCase()}</span><br/><span>{'$' + product.price}</span></h1>}
           <div className="qty-bar2">
             <span className="qty-text2">QTY</span>
             <input
@@ -122,9 +122,16 @@ const SingleProduct = props => {
             }}
             type="button"
           >
-            {' '}
             ADD TO BAG
           </button>
+          <Link to="/">
+            <button
+              type="button"
+              className="back"
+            >
+              {'<< BACK'}
+            </button>
+          </Link>
         </div>
 
         <div className="s-outline">

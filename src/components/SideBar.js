@@ -1,7 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
-const SideBar = props => {
+const SideBar = ({all, products, setFilter}) => {
+
   function sortCandy(stock, type) {
     let ans = [];
     for (let i = 0; i < stock.length; i++) {
@@ -25,85 +25,74 @@ const SideBar = props => {
     return ans2;
   }
 
-  const fetchThisCategory = (id, main) => {
-    props.fetchProductsByCategory(id, main);
+  const fetchThisCategory = (id) => {
+    const filterCandy = all.filter(p => p.categories.find(pc => pc.id === Number(id)))
+    setFilter(filterCandy)
   };
 
   return (
     <div className="side-outline">
-      <div>
-        <Link to="/categories/1">
-          <strong onClick={() => fetchThisCategory(1, 1)}>CANDY</strong>
-        </Link>
+      <div className="main-category">
+        <strong onClick={() => setFilter(all)}>ALL</strong>
+      </div>
+      <hr />
+      <div className="main-category">
+        <strong onClick={() => fetchThisCategory(1)}>CANDY</strong>
       </div>
       <hr />
       <ul>
-        {props.products[0] &&
-          sortCandy(props.products, 1).map(tag => {
+        {products[0] &&
+          sortCandy(products, 1).map(tag => {
             return (
-              <Link key={tag[0]} to={`/categories/${tag[0].split('_')[1]}`}>
-                <li onClick={() => fetchThisCategory(tag[0].split('_')[1], 1)}>
+                <li key={tag[0]} onClick={() => fetchThisCategory(tag[0].split('_')[1])}>
                   {tag[0].split('_')[0].toUpperCase()}
                   {tag.length > 1 ? ` (${tag.length})` : ''}
                 </li>
-              </Link>
             );
           })}
       </ul>
-      <div>
-        <Link to="/categories/2">
-          <strong onClick={() => fetchThisCategory(2, 2)}>GUMMY</strong>
-        </Link>
+      <div className="main-category">
+        <strong onClick={() => fetchThisCategory(2)}>GUMMY</strong>
       </div>
       <hr />
       <ul>
-        {props.products[0] &&
-          sortCandy(props.products, 2).map(tag => {
+        {products[0] &&
+          sortCandy(products, 2).map(tag => {
             return (
-              <Link key={tag[0]} to={`/categories/${tag[0].split('_')[1]}`}>
-                <li onClick={() => fetchThisCategory(tag[0].split('_')[1], 2)}>
-                  {tag[0].split('_')[0].toUpperCase()}
-                  {tag.length > 1 ? ` (${tag.length})` : ''}
-                </li>
-              </Link>
+              <li key={tag[0]} onClick={() => fetchThisCategory(tag[0].split('_')[1])}>
+                {tag[0].split('_')[0].toUpperCase()}
+                {tag.length > 1 ? ` (${tag.length})` : ''}
+              </li>
             );
           })}
       </ul>
-      <div>
-        <Link to="/categories/3">
-          <strong onClick={() => fetchThisCategory(3, 3)}>CHOCOLATE</strong>
-        </Link>
+      <div className="main-category">
+        <strong onClick={() => fetchThisCategory(3)}>CHOCOLATE</strong>
       </div>
       <hr />
       <ul>
-        {props.products[0] &&
-          sortCandy(props.products, 3).map(tag => {
+        {products[0] &&
+          sortCandy(products, 3).map(tag => {
             return (
-              <Link key={tag[0]} to={`/categories/${tag[0].split('_')[1]}`}>
-                <li onClick={() => fetchThisCategory(tag[0].split('_')[1], 3)}>
-                  {tag[0].split('_')[0].toUpperCase()}
-                  {tag.length > 1 ? ` (${tag.length})` : ''}
-                </li>
-              </Link>
+              <li key={tag[0]} onClick={() => fetchThisCategory(tag[0].split('_')[1])}>
+                {tag[0].split('_')[0].toUpperCase()}
+                {tag.length > 1 ? ` (${tag.length})` : ''}
+              </li>
             );
           })}
       </ul>
-      <div>
-        <Link to="/categories/4">
-          <strong onClick={() => fetchThisCategory(4, 4)}>COLLECTON</strong>
-        </Link>
+      <div className="main-category">
+        <strong onClick={() => fetchThisCategory(4)}>COLLECTON</strong>
       </div>
       <hr />
       <ul>
-        {props.products[0] &&
-          sortCandy(props.products, 4).map(tag => {
+        {products[0] &&
+          sortCandy(products, 4).map(tag => {
             return (
-              <Link key={tag[0]} to={`/categories/${tag[0].split('_')[1]}`}>
-                <li onClick={() => fetchThisCategory(tag[0].split('_')[1], 4)}>
-                  {tag[0].split('_')[0].toUpperCase()}
-                  {tag.length > 1 ? ` (${tag.length})` : ''}
-                </li>
-              </Link>
+              <li key={tag[0]} onClick={() => fetchThisCategory(tag[0].split('_')[1])}>
+                {tag[0].split('_')[0].toUpperCase()}
+                {tag.length > 1 ? ` (${tag.length})` : ''}
+              </li>
             );
           })}
       </ul>

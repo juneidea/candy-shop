@@ -376,6 +376,7 @@ button:focus {
 }
 
 .side-outline li {
+  cursor: pointer;
   font-size: 14px;
   padding: 5px 0;
 }
@@ -460,6 +461,10 @@ button:focus {
   text-align: center;
 }
 
+.main-category {
+  cursor: pointer;
+}
+
 .qty-bar {
   border: solid 1px rgb(0, 0, 0);
   width: 296px;
@@ -516,7 +521,7 @@ button:focus {
 
 .single-outline {
   margin: auto;
-  padding-top: 50px;
+  padding-top: 100px;
   display: flex;
   flex-direction: row;
   max-width: 1050px;
@@ -525,6 +530,8 @@ button:focus {
 .productName {
   width: 400px;
   padding-top: 60px;
+  display: flex;
+  flex-direction: column;
 }
 
 .review {
@@ -539,11 +546,17 @@ button:focus {
 
 .productName button {
   background-color: rgb(57, 149, 185);
+  cursor: pointer;
   width: 170px;
   height: 47px;
   border-radius: 5px;
   font-size: 16px;
   color: rgb(223, 223, 223);
+}
+
+.productName a {
+  margin-top: auto;
+  margin-bottom: 30px;
 }
 
 .qty-bar2 {

@@ -25,15 +25,6 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-router.get('/categories', async (req, res, next) => {
-  try {
-    const stock = await Stock.findOne({ where: { id: req.params.id } });
-    res.json(stock);
-  } catch (err) {
-    next(err);
-  }
-});
-
 // Actual path: /api/stocks/:stockId
 // GET single candy
 // Accessibility: For all users
@@ -96,8 +87,3 @@ router.delete('/:stockId', async (req, res, next) => {
     next(err);
   }
 });
-
-// ...view the full list of products (the product catalog), so that I can see everything that's available
-// ...refine product listings by category, so that I can narrow down my choices to see only the types of items I'm interested in
-// ...search product listings, so that I can find specific products I want by name
-// ...view the details for an inidivdual product (including product descriptions, photos and reviews), so that I can determine whether that particular item fits my needs
