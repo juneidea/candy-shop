@@ -513,6 +513,15 @@ button:focus {
   max-height: 330px;
 }
 
+.no-product {
+  min-width: 990px;
+  text-align: center;
+}
+
+.card-empty {
+  width: 330px;
+}
+
 /* PART 4 SINGLE PRODUCT*/
 /* PART 4 SINGLE PRODUCT*/
 
