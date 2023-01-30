@@ -3,13 +3,10 @@ const { User, Cart, Address } = require('../db/models')
 const { requireLogin, requireAdmin } = require('./util')
 module.exports = router
 
-// All users. (Edwin's Comment: for Admin's view??)
+// All users
 router.get('/', async (req, res, next) => {
   try {
     const users = await User.findAll({
-      // explicitly select only the id and email fields - even though
-      // users' passwords are encrypted, it won't help if we just
-      // send everything to anyone who asks!
       attributes: ['id', 'email', 'isAdmin']
     })
     res.json(users)
@@ -18,7 +15,7 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-// Single user (Edwin's comment: For signed in user view? If so, need to do something with authentication?)
+// Single user
 router.get('/:userId', async (req, res, next) => {
   try {
     const user = await User.findOne({
@@ -30,37 +27,40 @@ router.get('/:userId', async (req, res, next) => {
     next(err)
   }
 })
-router.put('/makeAdmin/:userId', async (req, res, next) => {
+
+// Check Admin
+router.get('/admin/:userId', async (req, res, next) => {
   try {
-    const user = await User.findById(req.params.userId)
-    console.log(user.id)
-    const updatedUser = await user.update(req.body)
-    res.status(200).json(updatedUser)
+    const user = await User.findAll({
+      where: { isAdmin: true },
+      attributes: ['id', 'email']
+    })
+    const admin = []
+    user.forEach(u => admin.push(u.dataValues))
+    res.json(!!admin.find(a => a.id === Number(req.params.userId)))
   } catch (err) {
     next(err)
   }
 })
 
-// Creating a new user (Edwin's Commenmt: Authentication??)
-// router.post('/', async (req, res, next) => {
-//   try {
-//     // Edwin's Comment: Do we want to use the entire req.body form?
-//     const newUser = await User.create({
-//       sessionId: req.session.id,
-//       password: req.body.password,
-//       email: req.body.email
-//     })
-//     res.status(200).json(newUser)
-//   } catch (err) {
-//     next(err)
-//   }
-// })
+// Create user
+router.post('/', async (req, res, next) => {
+  try {
+    const newUser = await User.create({
+      sessionId: req.session.id,
+      password: req.body.password,
+      email: req.body.email
+    })
+    res.status(200).json(newUser)
+  } catch (err) {
+    next(err)
+  }
+})
 
-// Update user (Edwin's Comment: Authentication?)
+// Update user
 router.put('/:userId', async (req, res, next) => {
   try {
-    const currentUser = await User.findById(req.params.userId)
-    // Edwin's Comment: Do we want the entre req.body form?
+    const currentUser = await User.findByPk(req.params.userId)
     const updatedUser = await currentUser.update(req.body)
     res.status(200).json(updatedUser)
   } catch (err) {
@@ -68,9 +68,22 @@ router.put('/:userId', async (req, res, next) => {
   }
 })
 
+// Remove user
+router.delete('/:userId', requireAdmin, async (req, res, next) => {
+  try {
+    await User.destroy({
+      where: {
+        id: req.params.userId
+      }
+    })
+    res.sendStatus(200)
+  } catch (err) {
+    next(err)
+  }
+})
+
 router.post('/address/:userId', async (req, res, next) => {
   try {
-    // Edwin's Comment: Do we want to use the entire req.body form?
     const { street, firstName, lastName, city, state, zip } = req.body
     const newAddress = await Address.findOrCreate({
       where: {
@@ -89,16 +102,3 @@ router.post('/address/:userId', async (req, res, next) => {
   }
 })
 
-// Remove user (Edwin's comment: authentication? Admin?)
-router.delete('/:userId', requireAdmin, async (req, res, next) => {
-  try {
-    await User.destroy({
-      where: {
-        id: req.params.userId
-      }
-    })
-    res.sendStatus(200)
-  } catch (err) {
-    next(err)
-  }
-})

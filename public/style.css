@@ -68,6 +68,10 @@ ul hr {
   z-index: 3;
 }
 
+.navRow a {
+  margin-top: auto;
+}
+
 .wLogo {
   width: 190px;
 }
@@ -79,6 +83,7 @@ button:focus {
 .dropbtn1 {
   background-color: rgba(153, 40, 144, 0.849);
   color: white;
+  cursor: pointer;
   height: 70px;
   padding: 16px;
   font-size: 16px;
@@ -621,16 +626,37 @@ button:focus {
   margin: auto;
 }
 
+.sign-in-submit {
+  margin-top: 0;
+}
+
 .sign-in-outline {
   margin: auto;
   padding-top: 100px;
 }
 
+.sign-in-outline small {
+  color: rgb(163, 163, 163);
+  display: block;
+  margin-top: 10px;;
+}
+
+.sign-in-outline a {
+  color: rgb(57, 149, 185);
+}
+
 .sign-in input {
+  background-color: white;
+  border: 1px solid rgb(163, 163, 163);
+  border-radius: 3px;
+  font-size: 18px;
   height: 30px;
   margin-top: 10px;
-  font-size: 18px;
-  background-color: white;
+  padding: 0 5px;
+}
+
+.sign-in input::placeholder {
+  color: rgb(201, 207, 210);
 }
 
 .sign-in button {
@@ -644,7 +670,26 @@ button:focus {
   margin: 10px auto 12px;
   display: flex;
   cursor: pointer;
-  justify-content: center;
+  padding: 9px 22px;
+}
+
+.sign-in button:disabled {
+  background-color: rgb(216, 214, 214);
+  border-color: rgb(163, 163, 163);
+}
+
+.radio {
+  display: flex;
+  margin: 10px 0;
+}
+
+.radio label {
+  color: rgb(163, 163, 163);
+  padding: 16px 10px 0 10px;
+}
+
+.oauth {
+  text-align: center;
 }
 
 .spacer {
@@ -658,9 +703,6 @@ button:focus {
   left: 0;
   bottom: 0;
   width: 100%;
-  <<<<<<<headheight: 18%;
-  =======height: 5%;
-  >>>>>>>33bc6b85998d8be98c9fd4ddd0f4da796924d770background-color: black;
   color: white;
   text-align: center;
 }

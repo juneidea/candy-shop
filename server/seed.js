@@ -19,26 +19,26 @@ async function seed() {
 
   const users = await Promise.all([
     User.create({
-      email: 'DavidRichy@email.com',
-      username: 'DavidRich',
-      password: 'RichyRich',
+      email: 'Edwin@email.com',
+      username: 'Edwin',
+      password: 'candy',
       // cartId: 4,
       history: [5, 6],
       isAdmin: false,
-      visits: 0
+      visits: 10
     }),
     User.create({
-      email: 'ShanonSalas@email.com',
-      username: 'ShanonSal',
-      password: '123',
+      email: 'Ozlem@email.com',
+      username: 'Ozlem',
+      password: 'candy',
       // cartId: 1,
       history: [2, 3],
       isAdmin: false,
       visits: 12
     }),
     User.create({
-      email: 'BenSari@email.com',
-      username: 'BenSari',
+      email: 'Noah@email.com',
+      username: 'Noah',
       password: 'I<3Dogs',
       // cartId: 7,
       history: [8, 9],
@@ -46,9 +46,9 @@ async function seed() {
       visits: 35
     }),
     User.create({
-      email: 'DannyDevito@email.com',
-      username: 'DannyO',
-      password: 'TrashMan',
+      email: 'Dummy@email.com',
+      username: 'Dummy',
+      password: 'candy',
       // cartId: 10,
       history: [11, 12],
       isAdmin: false,
@@ -61,7 +61,7 @@ async function seed() {
       // cartId: 13,
       history: [14, 15],
       isAdmin: true,
-      visits: 66
+      visits: 6
     })
   ]);
 
@@ -337,10 +337,10 @@ async function seed() {
     }),
     Address.create({
       userId: 5,
-      street: '972 5th Ave',
-      city: 'New York',
-      state: 'NY',
-      zip: '10075'
+      street: 'Kimball Ave',
+      city: 'Chicago',
+      state: 'IL',
+      zip: '60618'
     })
   ]);
 

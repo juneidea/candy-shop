@@ -1,6 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom'
 
-const Navbar = ({isLoggedIn}) => {
+const Navbar = ({userName}) => {
 
   return (
     <div className="nav-outline">
@@ -9,9 +10,11 @@ const Navbar = ({isLoggedIn}) => {
           <img src="/images/wLogo.png" alt="wLogo" className="wLogo" />
         </div>
         <div className="dropdown1">
-          <button className="dropbtn1">
-            FIND YOUR SWEETS
-          </button>
+          <Link to="/">
+            <button className="dropbtn1">
+              FIND YOUR SWEETS
+            </button>
+          </Link>
         </div>
         <div className="dropdown2">
           <button className="dropbtn2">STORE LOCATION</button>
@@ -48,14 +51,16 @@ const Navbar = ({isLoggedIn}) => {
         {/* )} */}
 
         <div className="dropdown4">
-          {isLoggedIn ? (
+          {userName ? (
             <button className="dropbtn4">
               LOGOUT
             </button>
           ) : (
-            <button className="dropbtn4">
-              SIGN UP | LOGIN
-            </button>
+            <Link to="/login">
+              <button className="dropbtn4">
+                SIGN UP | LOGIN
+              </button>
+            </Link>
           )}
         </div>
         <div className="dropdown5">

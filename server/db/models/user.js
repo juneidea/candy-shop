@@ -40,9 +40,6 @@ const User = db.define('user', {
     type: Sequelize.BOOLEAN,
     defaultValue: false
   },
-  sessionId: {
-    type: Sequelize.STRING
-  },
   visits: {
     type: Sequelize.INTEGER,
     defaultValue: 0
