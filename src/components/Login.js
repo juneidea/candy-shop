@@ -1,9 +1,13 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 
 const Login = props => {
   const { handleSubmit, error } = props;
   const [guest, setGuest] = useState(true)
   const [warning, setWarning] = useState('')
+
+  useEffect(() => {
+    setWarning('')
+  },[guest])
 
   return (
     <div className="outline">

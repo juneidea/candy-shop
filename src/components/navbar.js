@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
 
-const Navbar = ({userName}) => {
+const Navbar = ({userName, cart}) => {
 
   return (
     <div className="nav-outline">
@@ -68,7 +68,7 @@ const Navbar = ({userName}) => {
             SHOPPING BAG
           </button>
           <div className="bag">
-            {/* <span>{props.cart[0] && candyCount(props.cart)}</span> */}
+            <span>{cart.items && cart.items.length}</span>
             <img src="/images/shoppingBag.png" alt="shoppingBag" id="bag" />
           </div>
         </div>

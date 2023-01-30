@@ -4,9 +4,26 @@ const nodemailer = require('nodemailer')
 const { requireAdmin } = require('./util')
 module.exports = router
 
+// Actual path: /api/cart/user
+// Get a current user cart
+// Accessibility: current user
+router.get('/user', async (req, res, next) => {
+  try {
+    const userCart = await Cart.findOne({
+      where: { userId: req.user.dataValues.id, isPurchased: false}
+    })
+    const items = await CartItems.findAll({
+      where: { cartId: userCart.id }
+    })
+    res.json({id: userCart.id, items: items})
+  } catch (err) {
+    next(err)
+  }
+})
+
 // Actual path: /api/cart/:cartId
 // Show all cart items
-// Accessibility: For all users
+// Accessibility: all user
 router.get('/:cartId', async (req, res, next) => {
   try {
     const singleCartView = await CartItems.findAll({
@@ -18,48 +35,45 @@ router.get('/:cartId', async (req, res, next) => {
   }
 })
 
-router.get('/history/:cartId', async (req, res, next) => {
-  try {
-    const singleCartView = await CartItems.findAll({
-      where: { cartId: req.params.cartId }
-    })
-    res.json(singleCartView)
-  } catch (err) {
-    next(err)
-  }
-})
 
-// Actual path: /api/cart
+
+// Actual path: /api/cart/:cartId
 // Adding candy item to single user's cart.
-// Accessibility: User, Guest (Need to add..)
+// Accessibility: user relate to the cart
 router.post('/:cartId', async (req, res, next) => {
   try {
-    const newItem = await CartItems.create({
+    await CartItems.create({
       cartId: req.params.cartId,
       stockId: req.body.stockId,
-      quantity: Number(req.body.quantity)
+      quantity: req.body.quantity
     })
-    res.status(200).json(newItem)
+    const cartItems = await CartItems.findAll({
+      where: { cartId: req.params.cartId }
+    })
+    res.status(200).json({id:req.params.cartId, items: cartItems})
   } catch (err) {
     next(err)
   }
 })
 
-// Actual path: /api/cart/:cartItemId
+// Actual path: /api/cart/:cartId
 // Updating the number of quantity in the cart items list.
-// Accessibility: For Admin only. (Need to add..)
-router.put('/:cartItemId', async (req, res, next) => {
+// Accessibility: user relate to the cart
+router.put('/:cartId', async (req, res, next) => {
   try {
     const currentCartItem = await CartItems.findOne({
       where: {
-        stockId: req.body.stockId,
-        cartId: req.body.cartId
+        cartId: req.params.cartId,
+        stockId: req.body.stockId
       }
     })
-    const updatedCartItem = await currentCartItem.update({
+    await currentCartItem.update({
       quantity: req.body.quantity
     })
-    res.status(200).json(updatedCartItem)
+    const cartItems = await CartItems.findAll({
+      where: { cartId: req.params.cartId }
+    })
+    res.status(200).json({id:req.params.cartId, items: cartItems})
   } catch (err) {
     next(err)
   }

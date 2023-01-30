@@ -22,7 +22,6 @@ async function seed() {
       email: 'Edwin@email.com',
       username: 'Edwin',
       password: 'candy',
-      // cartId: 4,
       history: [5, 6],
       isAdmin: false,
       visits: 10
@@ -31,7 +30,6 @@ async function seed() {
       email: 'Ozlem@email.com',
       username: 'Ozlem',
       password: 'candy',
-      // cartId: 1,
       history: [2, 3],
       isAdmin: false,
       visits: 12
@@ -40,25 +38,14 @@ async function seed() {
       email: 'Noah@email.com',
       username: 'Noah',
       password: 'I<3Dogs',
-      // cartId: 7,
       history: [8, 9],
       isAdmin: true,
       visits: 35
     }),
     User.create({
-      email: 'Dummy@email.com',
-      username: 'Dummy',
-      password: 'candy',
-      // cartId: 10,
-      history: [11, 12],
-      isAdmin: false,
-      visits: 22
-    }),
-    User.create({
       email: 'juneidea@gmail.com',
       username: 'juneidea',
       password: 'Rabbit',
-      // cartId: 13,
       history: [14, 15],
       isAdmin: true,
       visits: 6
@@ -335,13 +322,6 @@ async function seed() {
       state: 'IL',
       zip: '60007'
     }),
-    Address.create({
-      userId: 5,
-      street: 'Kimball Ave',
-      city: 'Chicago',
-      state: 'IL',
-      zip: '60618'
-    })
   ]);
 
   const images = await Promise.all([
@@ -880,20 +860,23 @@ async function seed() {
       isPurchased: true
     }),
     Cart.create({
+      stockId: 4,
+      userId: 1,
+      total_quantity: 20
+    }),
+    Cart.create({
       stockId: 3,
       userId: 2,
-      total_quantity: 3
+      total_quantity: 3,
+      isPurchased: true
     }),
     Cart.create({
       stockId: 10,
       userId: 2,
       total_quantity: 2
     }),
-    Cart.create({
-      stockId: 4,
-      userId: 1,
-      total_quantity: 20
-    })
+    Cart.create({userId: 3}),
+    Cart.create({userId: 4})
   ]);
 
   const order = await Order.create({
@@ -1075,7 +1058,6 @@ async function seed() {
     await stocks[33].addCategory(categories[14])
   ]);
 
-  console.log('==========>>Stock Category Join==> ', stockCategory);
   console.log(`seeded ${users.length} users`);
   console.log(`seeded ${stocks.length} stocks`);
   console.log(`seeded ${address.length} address`);
@@ -1084,6 +1066,7 @@ async function seed() {
   console.log(`seeded ${cartItems.length} cart items`);
   console.log(`seeded ${ratings.length} ratings`);
   console.log(`seeded ${categories.length} categories`);
+  console.log('stocks <==> categories join ', stockCategory.length);
   console.log(`seeded successfully`);
 }
 

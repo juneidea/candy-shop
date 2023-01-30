@@ -1,7 +1,10 @@
 import React, { useEffect, useState} from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 
-const SingleProduct = props => {
+import {postItems, updateItemQuantity} from './updateCart'
+
+const SingleProduct = ({cart, setCart}) => {
+  const navigate = useNavigate()
   const params = useParams()
   const [product, setProduct] = useState({})
   const [imagesArray, setImagesArray] = useState([])
@@ -25,26 +28,29 @@ const SingleProduct = props => {
   };
 
   const submitResult = stockId => {
-    // const qty = document.getElementsByName(`q${stockId}`);
-    // const cartId = props.info.id;
-    // const value = Number(qty[0].value);
-
-    // if (props.cart.filter(stock => stock.stockId === stockId)[0]) {
-    //   const quantity =
-    //     props.cart.filter(stock => stock.stockId === stockId)[0].quantity +
-    //     value;
-    //   props.updateItemQuantity({
-    //     stockId,
-    //     cartId,
-    //     quantity
-    //   });
-    // } else {
-    //   props.postItems(cartId, {
-    //     stockId,
-    //     cartId,
-    //     quantity: value
-    //   });
-    // }
+    const qty = document.getElementsByName(`q${stockId}`);
+    const cartId = cart.id;
+    const value = Number(qty[0].value);
+    if (cart && cart.items && cart.items.filter(stock => stock.stockId === stockId)[0]) {
+      const quantity =
+        cart.items.filter(stock => stock.stockId === stockId)[0].quantity +
+        value;
+      updateItemQuantity({
+        stockId,
+        cartId,
+        quantity,
+        setCart
+      });
+      navigate("/")
+    } else {
+      postItems({
+        stockId,
+        cartId,
+        quantity: value,
+        setCart
+      });
+      navigate("/")
+    }
   };
 
   function currentDiv(n) {
@@ -100,7 +106,7 @@ const SingleProduct = props => {
           </div>
           <button
             onClick={() => {
-              submitResult(product.id, product.price);
+              submitResult(product.id);
             }}
             type="button"
           >

@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import CardView from './CardView';
 import SideBar from './SideBar';
 
-const AllProducts = ({products}) => {
+const AllProducts = ({products, cart, setCart}) => {
   const [filteredProducts, setFilteredProducts] = useState([])
   useEffect(() => {
     setFilteredProducts(products)
@@ -16,22 +16,22 @@ const AllProducts = ({products}) => {
           {filteredProducts.length > 2 && filteredProducts.map(product => {
             return (
               <div key={product.id}>
-                <CardView product={product} />
+                <CardView product={product} cart={cart} setCart={setCart} />
               </div>
             );
           })}
           {filteredProducts.length === 2 && <>
             <div key={filteredProducts[0].id}>
-              <CardView product={filteredProducts[0]} />
+              <CardView product={filteredProducts[0]} cart={cart} setCart={setCart} />
             </div>
             <div key={filteredProducts[1].id}>
-              <CardView product={filteredProducts[1]} />
+              <CardView product={filteredProducts[1]} cart={cart} setCart={setCart} />
             </div>
             <div className="card-empty" />
           </>}
           {filteredProducts.length === 1 && <>
             <div key={filteredProducts[0].id}>
-              <CardView product={filteredProducts[0]} />
+              <CardView product={filteredProducts[0]} cart={cart} setCart={setCart} />
             </div>
             <div className="card-empty" />
             <div className="card-empty" />

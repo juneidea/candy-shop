@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const CardView = ({product}) => {
+import {postItems, updateItemQuantity} from './updateCart'
+
+const CardView = ({product, cart, setCart}) => {
   const addUp = id => {
     const qty = document.getElementsByName(`q${id}`);
     let value = Number(qty[0].value);
@@ -13,27 +15,29 @@ const CardView = ({product}) => {
     if (value > 1) qty[0].value = value - 1;
     else qty[0].value = 1;
   };
-  const submitResult = stockId => {
-    // const qty = document.getElementsByName(`q${stockId}`);
-    // const cartId = props.info.id;
-    // const value = Number(qty[0].value);
 
-    // if (props.cart.filter(stock => stock.stockId === stockId)[0]) {
-    //   const quantity =
-    //     props.cart.filter(stock => stock.stockId === stockId)[0].quantity +
-    //     value;
-    //   props.updateItemQuantity({
-    //     stockId,
-    //     cartId,
-    //     quantity
-    //   });
-    // } else {
-    //   props.postItems(cartId, {
-    //     stockId,
-    //     cartId,
-    //     quantity: value
-    //   });
-    // }
+  const submitResult = stockId => {
+    const qty = document.getElementsByName(`q${stockId}`);
+    const cartId = cart.id;
+    const value = Number(qty[0].value);
+    if (cart && cart.items && cart.items.filter(stock => stock.stockId === stockId)[0]) {
+      const quantity =
+        cart.items.filter(stock => stock.stockId === stockId)[0].quantity +
+        value;
+      updateItemQuantity({
+        stockId,
+        cartId,
+        quantity,
+        setCart
+      });
+    } else {
+      postItems({
+        stockId,
+        cartId,
+        quantity: value,
+        setCart
+      });
+    }
   };
 
   return (

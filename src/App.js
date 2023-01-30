@@ -10,9 +10,13 @@ const App = () => {
   const navigate = useNavigate()
   const [products, setProducts] = useState([])
   const [userName, setUserName] = useState()
+  const [cart, setCart] = useState({})
   useEffect(() => {
     fetch('/api/stocks').then((res) => res.json()).then((data) => {
       setProducts(data)
+    })
+    fetch('/api/cart/user').then((res) => res.json()).then((cart) => {
+      setCart(cart)
     })
   },[])
 
@@ -38,10 +42,10 @@ const App = () => {
 
   return (
     <>
-      <Navbar userName={userName} />
+      <Navbar userName={userName} cart={cart} />
       <Routes>
-        <Route path='/' element={<AllProducts products={products} />} />
-        <Route exact path='/product/:id' element={<SingleProduct />} />
+        <Route path='/' element={<AllProducts products={products} cart={cart} setCart={setCart}/>} />
+        <Route exact path='/product/:id' element={<SingleProduct cart={cart} setCart={setCart} />} />
         <Route path='/login' element={<Login handleSubmit={userSubmit} error={{}} />} />
       </Routes>
     </>
