@@ -79,6 +79,26 @@ router.put('/:cartId', async (req, res, next) => {
   }
 })
 
+// Actual path: /api/cart/:cartId
+// Deleting an existing candy in the cart item list.
+// Accessibility: user relate to the cart
+router.delete('/:cartId', async (req, res, next) => {
+  try {
+    await CartItems.destroy({
+      where: {
+        cartId: req.params.cartId,
+        stockId: req.body.stockId
+      }
+    })
+    const cartItems = await CartItems.findAll({
+      where: { cartId: req.params.cartId }
+    })
+    res.status(200).json({id:req.params.cartId, items: cartItems})
+  } catch (err) {
+    next(err)
+  }
+})
+
 // checkout
 
 router.post('/checkout/:cartId', async (req, res, next) => {
@@ -98,46 +118,6 @@ router.post('/checkout/:cartId', async (req, res, next) => {
     })
 
     res.status(200).json(completeCart)
-  } catch (err) {
-    next(err)
-  }
-})
-// Actual path: /api/cart/:cartId
-// Deleting an existing candy in the cart item list.
-// Accessibility: For Admin only. (Need to add..)
-router.delete('/:cartItemId', async (req, res, next) => {
-  try {
-    await CartItems.destroy({
-      where: {
-        id: req.params.cartItemId
-      }
-    })
-    res.sendStatus(200)
-  } catch (err) {
-    next(err)
-  }
-})
-
-// // Actual path: /api/cart/cartItems
-// // Show all cart items in single cart
-// // Accessibility: For all users
-// router.get('/cartItems', async (req, res, next) => {
-//   try {
-//     const allItemsInTheCart = await CartItems.findAll({
-//       where: { cartId: req.params.cartId },
-//       include: [Stock]
-//     })
-//     res.json(singleCartView)
-//   } catch (err) {
-//     next(err)
-//   }
-// })
-router.get('/cartinfo/:userId', async (req, res, next) => {
-  try {
-    const cartIni = await Cart.findOrCreate({
-      where: { userId: req.user.id, isPurchased: false }
-    })
-    res.json(cartIni[0].id)
   } catch (err) {
     next(err)
   }

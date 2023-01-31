@@ -63,15 +63,17 @@ const Navbar = ({userName, cart}) => {
             </Link>
           )}
         </div>
-        <div className="dropdown5">
-          <button className="dropbtn5">
-            SHOPPING BAG
-          </button>
-          <div className="bag">
-            <span>{cart.items && cart.items.length}</span>
-            <img src="/images/shoppingBag.png" alt="shoppingBag" id="bag" />
+        <Link to="/cart">
+          <div className="dropdown5">
+            <button className="dropbtn5">
+              SHOPPING BAG
+            </button>
+            <div className="bag">
+              <span>{cart.items && cart.items.reduce((count, item) => {return count + item.quantity}, 0)}</span>
+              <img src="/images/shoppingBag.png" alt="shoppingBag" id="bag" />
+            </div>
           </div>
-        </div>
+        </Link>
       </div>
     </div>
   );

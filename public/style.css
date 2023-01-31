@@ -804,9 +804,6 @@ button:focus {
 
 .cart_container h3 {
   padding: 4px 8px;
-  background-color: rgb(91, 179, 214);
-  border: solid 1px rgb(57, 149, 185);
-  color: rgb(255, 255, 255);
 }
 
 .cart_container th {
@@ -814,8 +811,20 @@ button:focus {
   padding: 12px;
 }
 
+.cart_container th:first-child {
+  border: none;
+}
+
 .cart_container td {
-  padding: 8px 14px;
+  padding: 2px 10px;
+}
+
+.cart_container td:first-child {
+  background: rgb(255, 255, 255);
+}
+
+.cart_container td:last-child {
+  background: rgb(255, 255, 255);
 }
 
 .cart_container tr:nth-child(even) {
@@ -826,18 +835,25 @@ button:focus {
   height: 20px;
   text-align: center;
   font-size: 16px;
+  margin-right: 10px;
+  width: 80px;
 }
 
-.cart_container button {
-  height: 30px;
-  font-size: 14px;
-  margin-left: 8px;
-  margin-right: 8px;
-  margin-top: 8px;
+.cart_container img {
+  width: 50px;
+}
+
+.table-button {
   background-color: rgb(91, 179, 214);
   border: solid 1px rgb(57, 149, 185);
   border-radius: 4px;
   color: rgb(255, 255, 255);
+  cursor: pointer;
+  display: inline-block;
+  height: 20px;
+  font-size: 14px;
+  margin: 0 8px;
+  padding: 5px 10px;
 }
 
 .empty_cart {
@@ -876,7 +892,7 @@ button:focus {
   margin-right: 15px;
 }
 
-.checkout-form button {
+.checkout-button {
   height: 30px;
   width: 160px;
   font-size: 14px;
@@ -887,6 +903,7 @@ button:focus {
   border: solid 1px rgb(57, 149, 185);
   border-radius: 4px;
   color: rgb(255, 255, 255);
+  cursor: pointer;
 }
 
 .checkout-send {

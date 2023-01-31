@@ -26,4 +26,17 @@ const updateItemQuantity = ({cartId, stockId, quantity, setCart}) => {
     })
 }
 
-export {postItems, updateItemQuantity}
+const removeItems = ({cartId, stockId, setCart}) => {
+    fetch(`/api/cart/${cartId}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({        
+            stockId,
+    })}).then((res) => res.json()).then((cartUpdate) => {
+        setCart(cartUpdate)
+    })
+}
+
+export {postItems, updateItemQuantity, removeItems}
