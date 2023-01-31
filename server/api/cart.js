@@ -1,7 +1,6 @@
 const router = require('express').Router()
 const { CartItems, Cart, Stock, Address, Order } = require('../db/models')
-const nodemailer = require('nodemailer')
-const { requireAdmin } = require('./util')
+// const nodemailer = require('nodemailer')
 module.exports = router
 
 // Actual path: /api/cart/user
@@ -16,6 +15,28 @@ router.get('/user', async (req, res, next) => {
       where: { cartId: userCart.id }
     })
     res.json({id: userCart.id, items: items})
+  } catch (err) {
+    next(err)
+  }
+})
+
+// Actual path: /api/cart/replace
+// Replace with new cart
+// Accessibility: current user
+router.post('/replace', async (req, res, next) => {
+  try {
+    await Cart.destroy({
+      where: { userId: req.user.dataValues.id, isPurchased: false}
+    })
+    const newCart = await Cart.create({ userId: req.user.dataValues.id });
+    req.body.items.forEach( async (item) => {
+      await CartItems.create({
+        cartId: newCart.id,
+        stockId: item.stockId,
+        quantity: item.quantity
+      })
+    })
+    res.json({id: newCart.id, items: []})
   } catch (err) {
     next(err)
   }

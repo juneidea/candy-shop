@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom'
 
 import {postItems, updateItemQuantity} from './updateCart'
 
@@ -18,25 +18,36 @@ const CardView = ({product, cart, setCart}) => {
 
   const submitResult = stockId => {
     const qty = document.getElementsByName(`q${stockId}`);
-    const cartId = cart.id;
     const value = Number(qty[0].value);
-    if (cart && cart.items && cart.items.filter(stock => stock.stockId === stockId)[0]) {
+    const cartId = cart.id;
+    if (cart.items.filter(stock => stock.stockId === stockId)[0]) {
       const quantity =
         cart.items.filter(stock => stock.stockId === stockId)[0].quantity +
         value;
-      updateItemQuantity({
-        stockId,
-        cartId,
-        quantity,
-        setCart
-      });
+      if (cartId) {
+        updateItemQuantity({
+          stockId,
+          cartId,
+          quantity,
+          setCart
+        }) 
+      } else {
+        cart.items.map(item => {
+          if (item.stockId === stockId) item.quantity = quantity
+        })
+        setCart({items: [...cart.items]})
+      };
     } else {
-      postItems({
-        stockId,
-        cartId,
-        quantity: value,
-        setCart
-      });
+      if (cartId) {
+        postItems({
+          stockId,
+          cartId,
+          quantity: value,
+          setCart
+        });
+      } else {
+        setCart({items: [...cart.items, {stockId, quantity: value}]})
+      }
     }
   };
 
@@ -85,7 +96,7 @@ const CardView = ({product, cart, setCart}) => {
         <button
           type="button"
           onClick={() => {
-            submitResult(product.id, product.price);
+            submitResult(product.id);
           }}
         >
           <span>ADD TO BAG</span>

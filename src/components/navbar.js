@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { Link } from 'react-router-dom'
 
-const Navbar = ({userName, cart}) => {
+const Navbar = ({userName, userLogout, cart}) => {
 
   return (
     <div className="nav-outline">
@@ -52,7 +52,7 @@ const Navbar = ({userName, cart}) => {
 
         <div className="dropdown4">
           {userName ? (
-            <button className="dropbtn4">
+            <button className="dropbtn4" onClick={userLogout} >
               LOGOUT
             </button>
           ) : (
@@ -63,13 +63,13 @@ const Navbar = ({userName, cart}) => {
             </Link>
           )}
         </div>
-        <Link to="/cart">
+        <Link to={cart.id ? "/cart" : "/login"}>
           <div className="dropdown5">
             <button className="dropbtn5">
               SHOPPING BAG
             </button>
             <div className="bag">
-              <span>{cart.items && cart.items.reduce((count, item) => {return count + item.quantity}, 0)}</span>
+              <span>{cart.items.reduce((count, item) => {return count + item.quantity}, 0)}</span>
               <img src="/images/shoppingBag.png" alt="shoppingBag" id="bag" />
             </div>
           </div>

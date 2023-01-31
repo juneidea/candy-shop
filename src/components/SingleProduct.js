@@ -8,6 +8,7 @@ const SingleProduct = ({cart, setCart}) => {
   const params = useParams()
   const [product, setProduct] = useState({})
   const [imagesArray, setImagesArray] = useState([])
+
   useEffect(() => {
     fetch(`/api/stocks/${params.id}`).then((res) => res.json()).then((data) => {
       setProduct(data)
@@ -29,28 +30,37 @@ const SingleProduct = ({cart, setCart}) => {
 
   const submitResult = stockId => {
     const qty = document.getElementsByName(`q${stockId}`);
-    const cartId = cart.id;
     const value = Number(qty[0].value);
-    if (cart && cart.items && cart.items.filter(stock => stock.stockId === stockId)[0]) {
-      const quantity =
-        cart.items.filter(stock => stock.stockId === stockId)[0].quantity +
-        value;
-      updateItemQuantity({
-        stockId,
-        cartId,
-        quantity,
-        setCart
-      });
+    const cartId = cart.id;
+      if (cart.items.filter(stock => stock.stockId === stockId)[0]) {
+        const quantity =
+          cart.items.filter(stock => stock.stockId === stockId)[0].quantity +
+          value;
+        if (cartId) {
+          updateItemQuantity({
+            stockId,
+            cartId,
+            quantity,
+            setCart
+          }) 
+        } else {
+          cart.items.map(item => {
+            if (item.stockId === stockId) item.quantity = quantity
+          })
+        };
+      } else {
+        if (cartId) {
+          postItems({
+            stockId,
+            cartId,
+            quantity: value,
+            setCart
+          });
+        } else {
+          cart.items.push({stockId, quantity: value})
+        }
+      }
       navigate("/")
-    } else {
-      postItems({
-        stockId,
-        cartId,
-        quantity: value,
-        setCart
-      });
-      navigate("/")
-    }
   };
 
   function currentDiv(n) {

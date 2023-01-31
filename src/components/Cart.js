@@ -3,9 +3,8 @@ import { Link } from 'react-router-dom'
 
 import {removeItems, updateItemQuantity} from './updateCart'
 
-const Cart = ({products, cart, setCart}) => {
+const Cart = ({products, cart, setCart, userName}) => {
   let totalBag = 0
-  const username = sessionStorage.getItem('candyStar')
   const [items, setItems] = useState([])
   useEffect(() => {
     if (cart) setItems(cart.items)
@@ -20,7 +19,7 @@ const Cart = ({products, cart, setCart}) => {
       {!items || !products ? (
         <div className='outline'>
           <div className='empty_cart'>
-            <h3>{username} 's BAG</h3>
+            <h3>{userName} 's BAG</h3>
             <p>Your bag is empty, but it doesn't have to be!</p>
             <Link to='/'>
               <button type='button'> GO TO HOME PAGE FOR SOME SWEETS!</button>
@@ -30,7 +29,7 @@ const Cart = ({products, cart, setCart}) => {
       ) : (
         <div className='outline'>
           <div className='cart_container'>
-            <h3>{username} 's BAG</h3>
+            <h3>{userName} 's BAG</h3>
             <table id='cart_table'>
               <tbody>
                 <tr>

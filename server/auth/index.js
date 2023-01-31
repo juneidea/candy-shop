@@ -32,12 +32,12 @@ router.post('/login', async (req, res, next) => {
 });
 
 router.post('/logout', (req, res) => {
-  req.logout(); 
-  req.session.destroy();
-  res.redirect('/');
+  req.logout(function(err) {
+    if (err) { return next(err); }
+    res.redirect('/');
+  });
 });
 
 router.get('/me', (req, res) => {
-  console.log(req.user.dataValues)
   res.json(req.user)
 });
