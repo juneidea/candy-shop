@@ -296,6 +296,8 @@ async function seed() {
   const address = await Promise.all([
     Address.create({
       userId: 1,
+      firstName: 'Edwin',
+      lastName: 'Kim',
       street: '123 Main St',
       city: 'Oak Park',
       state: 'IL',
@@ -303,6 +305,8 @@ async function seed() {
     }),
     Address.create({
       userId: 2,
+      firstName: 'Ozlem',
+      lastName: 'Captian',
       street: '26 Houghton St',
       city: 'Somerville',
       state: 'MA',
@@ -310,6 +314,8 @@ async function seed() {
     }),
     Address.create({
       userId: 3,
+      firstName: 'Noah',
+      lastName: 'Bech',
       street: '130 Second St',
       city: 'Cambridge',
       state: 'MA',
@@ -317,6 +323,8 @@ async function seed() {
     }),
     Address.create({
       userId: 4,
+      firstName: 'June',
+      lastName: 'Idea',
       street: '145 Lake Street',
       city: 'Chicago',
       state: 'IL',

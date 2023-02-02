@@ -15,6 +15,41 @@ router.get('/', async (req, res, next) => {
   }
 })
 
+// All address of the current user
+router.get('/address', async (req, res, next) => {
+  try {
+    const userAddress = await Address.findAll({
+      where: {
+        userId: req.user.dataValues.id
+      }
+    })
+    res.status(200).json(userAddress)
+  } catch (err) {
+    next(err)
+  }
+})
+
+// Add address of the current user
+router.post('/address', async (req, res, next) => {
+  try {
+    const { street, firstName, lastName, city, state, zip } = req.body
+    const newAddress = await Address.findOrCreate({
+      where: {
+        street,
+        firstName,
+        lastName,
+        city,
+        state,
+        zip,
+        userId: req.user.dataValues.id
+      }
+    })
+    res.status(200).json([newAddress])
+  } catch (err) {
+    next(err)
+  }
+})
+
 // Single user
 router.get('/:userId', async (req, res, next) => {
   try {
@@ -81,24 +116,3 @@ router.delete('/:userId', requireAdmin, async (req, res, next) => {
     next(err)
   }
 })
-
-router.post('/address/:userId', async (req, res, next) => {
-  try {
-    const { street, firstName, lastName, city, state, zip } = req.body
-    const newAddress = await Address.findOrCreate({
-      where: {
-        street,
-        firstName,
-        lastName,
-        city,
-        state,
-        zip,
-        userId: req.params.userId
-      }
-    })
-    res.status(200).json([newAddress])
-  } catch (err) {
-    next(err)
-  }
-})
-

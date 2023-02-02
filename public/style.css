@@ -873,23 +873,26 @@ button:focus {
   margin: auto;
 }
 
-.card-info {
+.address-info {
   flex-direction: column;
 }
 
-.card-row {
+.address-info h3 {
+  padding-left: 20px;
+  margin-bottom: 0;
+}
+
+.address-row {
   margin: 0 0;
 }
 
-.card-info input {
+.address-info input {
   height: 20px;
   font-size: 16px;
 }
 
-.card-info select {
-  height: 24px;
-  font-size: 14px;
-  margin-right: 15px;
+.address-info select {
+  margin-right: 3px;
 }
 
 .checkout-button {
@@ -906,7 +909,32 @@ button:focus {
   cursor: pointer;
 }
 
+.checkout-button:disabled {
+  background-color: rgb(216, 214, 214);
+  border-color: rgb(163, 163, 163);
+  cursor: default;
+}
+
+.gohome-button {
+  background-color: rgb(91, 179, 214);
+  border: solid 1px rgb(57, 149, 185);
+  border-radius: 4px;
+  color: rgb(255, 255, 255);
+  cursor: pointer;
+  padding: 8px;
+}
+
 .checkout-send {
   margin-left: 30px;
   margin-top: 0;
+}
+
+.address-info input, select {
+  background-color: white;
+  border: 1px solid rgb(163, 163, 163);
+  border-radius: 3px;
+  font-size: 18px;
+  height: 30px;
+  margin-top: 10px;
+  padding: 0 5px;
 }

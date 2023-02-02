@@ -16,13 +16,13 @@ const Cart = ({products, cart, setCart, userName}) => {
 
   return (
     <div className='spacer'>
-      {!items || !products ? (
+      {!items[0] || !products ? (
         <div className='outline'>
           <div className='empty_cart'>
             <h3>{userName} 's BAG</h3>
             <p>Your bag is empty, but it doesn't have to be!</p>
             <Link to='/'>
-              <button type='button'> GO TO HOME PAGE FOR SOME SWEETS!</button>
+              <button type='button' className="gohome-button"> GO TO HOME PAGE FOR SOME SWEETS!</button>
             </Link>
           </div>
         </div>
@@ -83,12 +83,14 @@ const Cart = ({products, cart, setCart, userName}) => {
               </tbody>
             </table>
             <div className='checkOut'>Total Bag ${totalBag}</div>
-            <button
-              className="checkout-button"
-              type='button'
-            >
-              CHECKOUT
-            </button>
+            <Link to='/checkout'>
+              <button
+                className="checkout-button"
+                type='button'
+              >
+                SHIPPING
+              </button>
+            </Link>
           </div>
         </div>
       )}

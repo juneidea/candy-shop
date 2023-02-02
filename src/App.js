@@ -6,6 +6,8 @@ import AllProducts from './components/AllProducts'
 import SingleProduct from './components/SingleProduct'
 import Login from './components/Login'
 import Cart from './components/Cart'
+import Checkout from './components/Checkout'
+import {post, replaceCart} from './components/updateCart'
 
 const App = () => {
   const navigate = useNavigate()
@@ -21,10 +23,7 @@ const App = () => {
   const userSubmit = event => {
     event.preventDefault()
     fetch('/auth/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      ...post,
       body: JSON.stringify({        
         password: event.target[1].value,
         email: event.target[0].value,
@@ -33,37 +32,14 @@ const App = () => {
       })
     }).then((res) => res.json()).then((data) => {
       setUserName(data.username)
+      replaceCart(cart, setCart)
       navigate("/")
-      if (cart.items.length === 0) {
-        // use database saved cart
-        fetch('/api/cart/user').then((res) => res.json()).then((savedCart) => {
-          setCart(savedCart)
-        })
-      } else {
-        // use new cart delete database saved cart
-        fetch('/api/cart/replace', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({        
-            items: cart.items
-          })
-        }).then((res) => res.json()).then(() => {
-          fetch('/api/cart/user').then((res) => res.json()).then((newCart) => {
-            setCart(newCart)
-          })
-        })
-      }
     })
   }
 
-  const userLogout = event => {
+  const userLogout = () => {
     fetch('/auth/logout', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      ...post,
     }).then(() => {
       setUserName(undefined)
       setCart({items: []})
@@ -79,6 +55,7 @@ const App = () => {
         <Route exact path='/product/:id' element={<SingleProduct cart={cart} setCart={setCart} />} />
         <Route path='/login' element={<Login handleSubmit={userSubmit} error={{}} />} />
         <Route path='/cart' element={<Cart products={products} cart={cart} setCart={setCart} userName={userName} />} />
+        <Route path='/checkout' element={<Checkout />} />
       </Routes>
     </>
   );

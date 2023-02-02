@@ -32,7 +32,7 @@ const CardView = ({product, cart, setCart}) => {
           setCart
         }) 
       } else {
-        cart.items.map(item => {
+        cart.items.forEach(item => {
           if (item.stockId === stockId) item.quantity = quantity
         })
         setCart({items: [...cart.items]})

@@ -42,6 +42,31 @@ router.post('/replace', async (req, res, next) => {
   }
 })
 
+// Actual path: /api/cart/checkout/:cartId
+// Checkout
+// Accessibility: current user
+router.post('/checkout/:cartId', async (req, res, next) => {
+  try {
+    const orderCart = await Cart.findById(req.params.cartId)
+    const { street, zip, firstName, lastName, state, city } = req.body
+    const address = await Address.find({
+      where: { street, zip, firstName, lastName, state, city }
+    })
+    const completeCart = await orderCart.update({
+      isPurchased: true,
+      addressId: address.id
+    })
+
+    await Order.create({
+      cartId: req.params.cartId
+    })
+
+    res.status(200).json(completeCart)
+  } catch (err) {
+    next(err)
+  }
+})
+
 // Actual path: /api/cart/:cartId
 // Show all cart items
 // Accessibility: all user
@@ -120,29 +145,6 @@ router.delete('/:cartId', async (req, res, next) => {
   }
 })
 
-// checkout
-
-router.post('/checkout/:cartId', async (req, res, next) => {
-  try {
-    const orderCart = await Cart.findById(req.params.cartId)
-    const { street, zip, firstName, lastName, state, city } = req.body
-    const address = await Address.find({
-      where: { street, zip, firstName, lastName, state, city }
-    })
-    const completeCart = await orderCart.update({
-      isPurchased: true,
-      addressId: address.id
-    })
-
-    await Order.create({
-      cartId: req.params.cartId
-    })
-
-    res.status(200).json(completeCart)
-  } catch (err) {
-    next(err)
-  }
-})
 
 router.post('/sendemail', async (req, res, next) => {
   try {
