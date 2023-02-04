@@ -1,11 +1,8 @@
 const router = require('express').Router();
-
-const { requireLogin, requireAdmin } = require('./util');
 const {
   Stock,
   Rating,
   Images,
-  StockCategory,
   Category
 } = require('../db/models');
 

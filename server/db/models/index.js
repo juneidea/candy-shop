@@ -17,35 +17,30 @@ const Order = require('./order');
 
 Images.belongsTo(Stock);
 Stock.hasMany(Images);
+
 Cart.belongsTo(User);
 User.hasMany(Cart);
+
 Rating.belongsTo(User);
 Rating.belongsTo(Stock);
+User.hasMany(Rating);
+Stock.hasMany(Rating);
+
 Address.belongsTo(User);
 User.hasMany(Address);
 Cart.belongsTo(Address);
+Address.hasMany(Cart);
+
 CartItems.belongsTo(Cart);
 CartItems.belongsTo(Stock);
+Cart.hasMany(CartItems);
+
 Stock.belongsToMany(Category, { through: 'StockCategory' });
 Category.belongsToMany(Stock, { through: 'StockCategory' });
-Order.belongsTo(Cart);
 
-Cart.hasMany(CartItems);
+Order.belongsTo(Cart);
 Cart.hasOne(Order);
 
-/* Edwin's Comment: Might end up deleting.. */
-Stock.hasMany(Rating);
-// User.hasMany(Address);
-// User.hasMany(Rating);
-// Stock.hasMany(Images);
-// Cart.hasMany(CartItems)
-
-/**
- * We'll export all of our models here, so that any time a module needs a model,
- * we can just require it from 'db/models'
- * for example, we can say: const {User} = require('../db/models')
- * instead of: const User = require('../db/models/user')
- */
 
 module.exports = {
   User,

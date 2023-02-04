@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
 
-const Navbar = ({userName, userLogout, cart}) => {
-
+const Navbar = ({userLogout, cart}) => {
+  const userName = sessionStorage.getItem('candyStar')
   return (
     <div className="nav-outline">
       <div className="navRow">

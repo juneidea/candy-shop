@@ -770,11 +770,9 @@ button:focus {
 }
 
 .thankYou {
+  display: block;
   padding-top: 100px;
   margin: auto;
-}
-
-.thankYou img {
   max-width: 900px;
 }
 
@@ -809,10 +807,6 @@ button:focus {
 .cart_container th {
   border: solid 1px rgb(211, 211, 211);
   padding: 12px;
-}
-
-.cart_container th:first-child {
-  border: none;
 }
 
 .cart_container td {
@@ -861,7 +855,7 @@ button:focus {
 }
 
 .checkOut {
-  padding-left: 75%;
+  padding-left: 70%;
   padding-top: 8px;
   padding-bottom: 8px;
   border-top: solid 1px rgb(211, 211, 211);
@@ -893,6 +887,10 @@ button:focus {
 
 .address-info select {
   margin-right: 3px;
+}
+
+.address-info select:first-child {
+  color: rgb(91, 179, 214);
 }
 
 .checkout-button {
@@ -937,4 +935,29 @@ button:focus {
   height: 30px;
   margin-top: 10px;
   padding: 0 5px;
+}
+
+.shipping-card {
+  border: 1px solid rgb(163, 163, 163);
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  padding: 15px;
+}
+
+.shipping-edit {
+  background-color: rgb(216, 214, 214);
+  border: 1px solid rgb(163, 163, 163);
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  margin: 5px;
+  margin-left: auto;
+  padding: 5px 8px;
+}
+
+
+.test-payment {
+  color: rgb(163, 163, 163);
 }

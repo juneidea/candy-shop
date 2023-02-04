@@ -29,7 +29,7 @@ router.get('/address', async (req, res, next) => {
   }
 })
 
-// Add address of the current user
+// Add address of the current user and current cart
 router.post('/address', async (req, res, next) => {
   try {
     const { street, firstName, lastName, city, state, zip } = req.body
@@ -44,6 +44,10 @@ router.post('/address', async (req, res, next) => {
         userId: req.user.dataValues.id
       }
     })
+    const userCart = await Cart.findOne({
+      where: { userId: req.user.dataValues.id, isPurchased: false}
+    })
+    await userCart.update({addressId: newAddress[0].dataValues.id})
     res.status(200).json([newAddress])
   } catch (err) {
     next(err)

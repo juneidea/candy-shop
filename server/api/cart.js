@@ -9,12 +9,13 @@ module.exports = router
 router.get('/user', async (req, res, next) => {
   try {
     const userCart = await Cart.findOne({
-      where: { userId: req.user.dataValues.id, isPurchased: false}
+      where: { userId: req.user.dataValues.id, isPurchased: false},
+      include: [{ model: Address }]
     })
     const items = await CartItems.findAll({
-      where: { cartId: userCart.id }
+      where: { cartId: userCart.id },
     })
-    res.json({id: userCart.id, items: items})
+    res.json({id: userCart.id, items: items, address: userCart.address})
   } catch (err) {
     next(err)
   }
@@ -28,7 +29,7 @@ router.post('/replace', async (req, res, next) => {
     await Cart.destroy({
       where: { userId: req.user.dataValues.id, isPurchased: false}
     })
-    const newCart = await Cart.create({ userId: req.user.dataValues.id });
+    const newCart = await Cart.create({ userId: req.user.dataValues.id, addressId: null });
     req.body.items.forEach( async (item) => {
       await CartItems.create({
         cartId: newCart.id,
@@ -42,26 +43,23 @@ router.post('/replace', async (req, res, next) => {
   }
 })
 
-// Actual path: /api/cart/checkout/:cartId
-// Checkout
+// Actual path: /api/cart/checkout
+// Purchased cart checkout
 // Accessibility: current user
-router.post('/checkout/:cartId', async (req, res, next) => {
+router.post('/checkout', async (req, res, next) => {
   try {
-    const orderCart = await Cart.findById(req.params.cartId)
-    const { street, zip, firstName, lastName, state, city } = req.body
-    const address = await Address.find({
-      where: { street, zip, firstName, lastName, state, city }
+    const purchasedCart = await Cart.findOne({
+      where: { userId: req.user.dataValues.id, isPurchased: false}
     })
-    const completeCart = await orderCart.update({
+    await purchasedCart.update({
       isPurchased: true,
-      addressId: address.id
     })
-
     await Order.create({
-      cartId: req.params.cartId
+      cartId: purchasedCart.id
     })
-
-    res.status(200).json(completeCart)
+    await purchasedCart.destroy()
+    const newCart = await Cart.create({ userId: req.user.dataValues.id, addressId: null });
+    res.status(200).json({id: newCart.id, items: [], address: null})
   } catch (err) {
     next(err)
   }

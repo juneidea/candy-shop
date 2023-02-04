@@ -862,34 +862,35 @@ async function seed() {
 
   const cart = await Promise.all([
     Cart.create({
-      stockId: 9,
       userId: 1,
-      total_quantity: 12,
+      addressId: 1,
       isPurchased: true
     }),
     Cart.create({
-      stockId: 4,
       userId: 1,
-      total_quantity: 20
+      addressId: 1,
     }),
     Cart.create({
-      stockId: 3,
       userId: 2,
-      total_quantity: 3,
+      addressId: 2,
       isPurchased: true
     }),
     Cart.create({
-      stockId: 10,
       userId: 2,
-      total_quantity: 2
+      addressId: 2,
     }),
     Cart.create({userId: 3}),
     Cart.create({userId: 4})
   ]);
 
-  const order = await Order.create({
-    cartId: 1
-  });
+  const order = await Promise.all([
+    Order.create({
+      cartId: 1
+    }),
+    Order.create({
+      cartId: 3
+    })
+  ]);
 
   const cartItems = await Promise.all([
     CartItems.create({
@@ -982,15 +983,6 @@ async function seed() {
       category_name: 'City Collection'
     })
   ]);
-
-  // const historyItems = await Promise.all([
-  //   HistoryItems.create({
-  //     cart_id: 1,
-  //     stock_id: 1,
-  //     quantity: 13,
-  //     historical_price: 10
-  //   })
-  // console.log('====MAGIC METHODS====>', Object.keys(stocks[0].__proto__))
 
   const stockCategory = await Promise.all([
     await stocks[0].addCategory(categories[0]),

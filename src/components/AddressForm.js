@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import StateSelector from './StateSelector'
 
 const AddressForm = ({setShipping}) => {
-  const [address, setAddress] = useState({firstName: '', lastName: '', street: '', city: '', state: '', zip: '' })
+  const [address, setAddress] = useState({id: null, firstName: '', lastName: '', street: '', city: '', state: '', zip: '' })
   const [savedAddress, setSavedAddress] = useState([])
   useEffect(() => {
     fetch('/api/users/address').then((res) => res.json()).then((data) => {
@@ -147,7 +147,7 @@ const AddressForm = ({setShipping}) => {
 
         <div>
           <button onClick={handleSubmit} className='checkout-button' disabled={!(firstName && lastName && street && city && state && zip)}>
-            PAYMENT
+            SAVE ADDRESS
           </button>
         </div>
       </form>

@@ -3,8 +3,9 @@ import { Link } from 'react-router-dom'
 
 import {removeItems, updateItemQuantity} from './updateCart'
 
-const Cart = ({products, cart, setCart, userName}) => {
+const Cart = ({products, cart, setCart}) => {
   let totalBag = 0
+  const userName = sessionStorage.getItem('candyStar')
   const [items, setItems] = useState([])
   useEffect(() => {
     if (cart) setItems(cart.items)
@@ -16,7 +17,7 @@ const Cart = ({products, cart, setCart, userName}) => {
 
   return (
     <div className='spacer'>
-      {!items[0] || !products ? (
+      {!items[0] || !products[0] ? (
         <div className='outline'>
           <div className='empty_cart'>
             <h3>{userName} 's BAG</h3>
@@ -33,7 +34,7 @@ const Cart = ({products, cart, setCart, userName}) => {
             <table id='cart_table'>
               <tbody>
                 <tr>
-                  <th></th>
+                  <th>#</th>
                   <th>NAME</th>
                   <th>QUANTITY</th>
                   <th>UNIT PRICE</th>
@@ -46,7 +47,7 @@ const Cart = ({products, cart, setCart, userName}) => {
                   totalBag += (item.quantity * product.price * 100) / 100
                   return (
                     <tr key={item.stockId}>
-                      <td><img src={product.images[0].imageUrl} alt={product.name} /></td>
+                      <td><img src={product.images.sort((a, b) => a.id - b.id)[0].imageUrl} alt={product.name} /></td>
                       <td>{product.name}</td>
                       <td>
                         <input

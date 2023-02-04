@@ -13,7 +13,7 @@ router.post('/login', async (req, res, next) => {
           email: req.body.email,
           username: req.body.email
         })
-        cart = await Cart.create({ userId: user.id });
+        cart = await Cart.create({ userId: user.id, addressId: null });
   
         req.login(user, err => (err ? next(err) : res.json(user)))
       } else {

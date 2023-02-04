@@ -7,17 +7,22 @@ import SingleProduct from './components/SingleProduct'
 import Login from './components/Login'
 import Cart from './components/Cart'
 import Checkout from './components/Checkout'
+import Thankyou from './components/ThankYou'
 import {post, replaceCart} from './components/updateCart'
 
 const App = () => {
   const navigate = useNavigate()
   const [products, setProducts] = useState([])
-  const [userName, setUserName] = useState()
   const [cart, setCart] = useState({items: []})
   useEffect(() => {
     fetch('/api/stocks').then((res) => res.json()).then((data) => {
       setProducts(data)
     })
+    if (sessionStorage.getItem('candyStar')) {
+      fetch('/api/cart/user').then((res) => res.json()).then((savedCart) => {
+        setCart(savedCart)
+      })
+    }
   },[])
 
   const userSubmit = event => {
@@ -31,7 +36,7 @@ const App = () => {
         guest: event.target[2].checked
       })
     }).then((res) => res.json()).then((data) => {
-      setUserName(data.username)
+      sessionStorage.setItem('candyStar', data.username)
       replaceCart(cart, setCart)
       navigate("/")
     })
@@ -41,7 +46,7 @@ const App = () => {
     fetch('/auth/logout', {
       ...post,
     }).then(() => {
-      setUserName(undefined)
+      sessionStorage.removeItem('candyStar')
       setCart({items: []})
       navigate("/")
     })
@@ -49,13 +54,14 @@ const App = () => {
 
   return (
     <>
-      <Navbar userName={userName} userLogout={userLogout} cart={cart} />
+      <Navbar userLogout={userLogout} cart={cart} />
       <Routes>
         <Route path='/' element={<AllProducts products={products} cart={cart} setCart={setCart}/>} />
         <Route exact path='/product/:id' element={<SingleProduct cart={cart} setCart={setCart} />} />
         <Route path='/login' element={<Login handleSubmit={userSubmit} error={{}} />} />
-        <Route path='/cart' element={<Cart products={products} cart={cart} setCart={setCart} userName={userName} />} />
-        <Route path='/checkout' element={<Checkout />} />
+        <Route path='/cart' element={<Cart products={products} cart={cart} setCart={setCart} />} />
+        <Route path='/checkout' element={<Checkout cart={cart} />} />
+        <Route path='/thankyou' element={<Thankyou products={products} cart={cart} setCart={setCart} />} />
       </Routes>
     </>
   );
