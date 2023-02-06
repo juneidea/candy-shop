@@ -9,14 +9,11 @@ function requireLogin(req, res, next) {
 }
 
 function requireAdmin(req, res, next) {
-  req.user.isAdmin = true
-  console.log('=====In requireAdmin function??===> ', req.user.isAdmin)
-
-  if (req.user.isAdmin) {
-    console.log('=====In requireAdmin isAdmim??===')
+  if (!req.user.isAdmin) {
+    res.sendStatus(403)
+  } else {
     next()
   }
-  res.sendStatus(403)
 }
 
 module.exports = { requireLogin, requireAdmin }

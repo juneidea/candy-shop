@@ -25,21 +25,16 @@ const Navbar = ({userLogout, cart}) => {
             <span>Los Angeles</span>
           </div>
         </div>
-        {/* {props.user.isAdmin ? (
+        {userName === 'admin' ? (
           <div className="dropdown3">
-            <button className="dropbtn3" onClick={routeChange7}>
-              DASHBOARD
-            </button>
+            <button className="dropbtn3">OUR ADMIN</button>
             <div className="dropdown-content3">
-              <Link to="/newproduct">
-                <span>Add Product</span>
-              </Link>
-              <Link to="/users">
-                <span>Edit User</span>
+              <Link to="/admin">
+                <span>Add Admin</span>
               </Link>
             </div>
           </div>
-        ) : ( */}
+        ) : (
           <div className="dropdown3">
             <button className="dropbtn3">ABOUT US</button>
             <div className="dropdown-content3">
@@ -48,7 +43,7 @@ const Navbar = ({userLogout, cart}) => {
               <span>Inspiration</span>
             </div>
           </div>
-        {/* )} */}
+        )}
 
         <div className="dropdown4">
           {userName ? (

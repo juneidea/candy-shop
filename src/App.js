@@ -9,6 +9,7 @@ import Cart from './components/Cart'
 import Checkout from './components/Checkout'
 import Thankyou from './components/ThankYou'
 import {post, replaceCart} from './components/updateCart'
+import Admin from './admin/Admin'
 
 const App = () => {
   const navigate = useNavigate()
@@ -36,7 +37,11 @@ const App = () => {
         guest: event.target[2].checked
       })
     }).then((res) => res.json()).then((data) => {
-      sessionStorage.setItem('candyStar', data.username)
+      if (data.isAdmin) {
+        sessionStorage.setItem('candyStar', 'admin')
+      } else {
+        sessionStorage.setItem('candyStar', data.username)
+      }
       replaceCart(cart, setCart)
       navigate("/")
     })
@@ -62,6 +67,7 @@ const App = () => {
         <Route path='/cart' element={<Cart products={products} cart={cart} setCart={setCart} />} />
         <Route path='/checkout' element={<Checkout cart={cart} />} />
         <Route path='/thankyou' element={<Thankyou products={products} cart={cart} setCart={setCart} />} />
+        <Route path='/admin' element={<Admin />} />
       </Routes>
     </>
   );

@@ -1,6 +1,5 @@
 const router = require('express').Router()
 const { User, Cart, Address } = require('../db/models')
-const { requireLogin, requireAdmin } = require('./util')
 module.exports = router
 
 // All users
@@ -54,6 +53,39 @@ router.post('/address', async (req, res, next) => {
   }
 })
 
+// Find admins
+router.get('/admin', async (req, res, next) => {
+  try {
+    if (req.user.dataValues.isAdmin) {
+      const admins = await User.findAll({
+        where: { isAdmin: true },
+        attributes: ['id', 'email']
+      })
+      res.status(200).json(admins)
+    }
+  } catch (err) {
+    next(err)
+  }
+})
+
+// Create admin
+router.post('/admin', async (req, res, next) => {
+  try {
+    if (req.user.dataValues.isAdmin) {
+      const newAdmin = await User.create({
+        password: req.body.password,
+        email: req.body.email,
+        isAdmin: true
+      })
+      cart = await Cart.create({ userId: newAdmin.id, addressId: null });
+
+      res.status(200).json(newAdmin)
+    }
+  } catch (err) {
+    next(err)
+  }
+})
+
 // Single user
 router.get('/:userId', async (req, res, next) => {
   try {
@@ -67,26 +99,10 @@ router.get('/:userId', async (req, res, next) => {
   }
 })
 
-// Check Admin
-router.get('/admin/:userId', async (req, res, next) => {
-  try {
-    const user = await User.findAll({
-      where: { isAdmin: true },
-      attributes: ['id', 'email']
-    })
-    const admin = []
-    user.forEach(u => admin.push(u.dataValues))
-    res.json(!!admin.find(a => a.id === Number(req.params.userId)))
-  } catch (err) {
-    next(err)
-  }
-})
-
 // Create user
 router.post('/', async (req, res, next) => {
   try {
     const newUser = await User.create({
-      sessionId: req.session.id,
       password: req.body.password,
       email: req.body.email
     })
@@ -108,14 +124,16 @@ router.put('/:userId', async (req, res, next) => {
 })
 
 // Remove user
-router.delete('/:userId', requireAdmin, async (req, res, next) => {
+router.delete('/:userId', async (req, res, next) => {
   try {
-    await User.destroy({
-      where: {
-        id: req.params.userId
-      }
-    })
-    res.sendStatus(200)
+    if (req.user.dataValues.isAdmin && req.params.userId > 4) {
+      await User.destroy({
+        where: {
+          id: req.params.userId
+        }
+      })
+      res.sendStatus(200)
+    }
   } catch (err) {
     next(err)
   }
