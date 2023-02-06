@@ -46,7 +46,7 @@ router.post('/replace', async (req, res, next) => {
 // Actual path: /api/cart/checkout
 // Purchased cart checkout
 // Accessibility: current user
-router.post('/checkout', async (req, res, next) => {
+router.get('/checkout', async (req, res, next) => {
   try {
     const purchasedCart = await Cart.findOne({
       where: { userId: req.user.dataValues.id, isPurchased: false}

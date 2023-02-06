@@ -8,12 +8,7 @@ const ThankYou = ({products, cart, setCart}) => {
   useEffect(() => {
     if (cart.items.length > 0) {
       setPurchasedCart(cart)
-      fetch('/api/cart/checkout', {
-        method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json' 
-        },
-      }).then((res => res.json())).then((data) => {
+      fetch('/api/cart/checkout').then((res => res.json())).then((data) => {
         setCart(data)
       })
     }
