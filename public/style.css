@@ -555,14 +555,24 @@ button:focus {
   flex-direction: column;
 }
 
-.review {
-  width: 400px;
-  padding-top: 60px;
+.review h3 {
+  color: rgb(57, 149, 185);
+  margin: 0;
 }
 
 .review p {
-  font-weight: thin;
   line-height: 30px;
+  margin: 8px 0;
+}
+
+.review input {
+  font-size: 1rem;
+  margin: 8px 0;
+  padding: 4px;
+}
+
+.review span{
+  margin-right: 8px;
 }
 
 .productName button {

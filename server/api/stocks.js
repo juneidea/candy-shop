@@ -14,7 +14,7 @@ module.exports = router;
 router.get('/', async (req, res, next) => {
   try {
     const stocks = await Stock.findAll({
-      include: [{ model: Rating }, { model: Images }, { model: Category }]
+      include: [{ model: Images }, { model: Category }]
     });
     res.json(stocks);
   } catch (err) {
@@ -28,7 +28,16 @@ router.get('/', async (req, res, next) => {
 router.get('/:stockId', async (req, res, next) => {
   try {
     const candy = await Stock.findOne({ where: { id: req.params.stockId },
-      include: [{ model: Rating }, { model: Images }, { model: Category }]
+      include: [
+        { model: Rating,
+        attributes : ['id','rating_num','review_text','stockId'],
+        separate : true, 
+        limit: 4,
+        order: [['id', 'DESC'],]
+        }, 
+        { model: Images }, 
+        { model: Category }
+      ],
     });
     res.status(200).json(candy);
   } catch (err) {

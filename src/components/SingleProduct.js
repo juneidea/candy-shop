@@ -1,6 +1,7 @@
 import React, { useEffect, useState} from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 
+import Reviews from './Reviews'
 import {postItems, updateItemQuantity} from './updateCart'
 
 const SingleProduct = ({cart, setCart}) => {
@@ -173,14 +174,13 @@ const SingleProduct = ({cart, setCart}) => {
           <hr />
           <h4>SHIPPING INFO</h4>
           <p>
-            This item typically ships within 1-2 business days. This processing
-            time is in addition to time in transit via your chosen shipping
-            method.
+            This item typically ships within 1-2 business days.
           </p>
           <hr />
           <h4>WHY YOU WANT THIS</h4>
           <p>{product.description}</p>
           <hr />
+          <Reviews product={product} />
         </div>
       </div>
     </div>

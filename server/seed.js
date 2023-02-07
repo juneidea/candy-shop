@@ -933,6 +933,12 @@ async function seed() {
       stockId: 9,
       rating_num: 5,
       review_text: 'It is great, so tasty!'
+    }),
+    Rating.create({
+      userId: 1,
+      stockId: 2,
+      rating_num: 5,
+      review_text: 'Fantastic!'
     })
   ]);
 
