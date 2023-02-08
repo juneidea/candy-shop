@@ -1,13 +1,8 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 
-const Login = props => {
-  const { handleSubmit, error } = props;
+const Login: React.FunctionComponent<{handleSubmit: () => void}> = ({handleSubmit}) => {
   const [guest, setGuest] = useState(true)
-  const [warning, setWarning] = useState('')
-
-  useEffect(() => {
-    setWarning('')
-  },[guest])
+  const [warning, setWarning] = useState('!= candy')
 
   return (
     <div className="outline">
@@ -20,12 +15,12 @@ const Login = props => {
           <div>
             <label htmlFor="password">Password</label>
             <input name="password" type="password" placeholder={guest ? 'candy' : ''} required={true} onChange={(e) => {
-              if (guest && (e.target.value !== '' && e.target.value !== 'candy')) {
+              if (guest && (e.target.value !== 'candy')) {
                 const pw = '*'.repeat(e.target.value.length)
                 setWarning(`${pw} != candy`)
-              } else setWarning('')
+              } else setWarning('***** = candy')
             }} />
-            <small>{guest ? warning ? warning : '* use candy to pass as a guest' : '* admin password'}</small>
+            <small>{guest ? warning !== ' != candy' ? warning : '* use candy to pass as a guest' : '* admin password'}</small>
             <div className="radio" >
               <input id="guest" name="user-type" type="radio" className="radio-button" value='guest' checked={guest} onChange={() => setGuest(!guest)} />
               <label htmlFor="guest">Guest</label>
@@ -34,9 +29,8 @@ const Login = props => {
             </div>
           </div>
           <div className="sign-in-submit">
-            <button type="submit" disabled={warning} >Submit</button>
+            <button type="submit" disabled={guest && warning !== '***** = candy'} >Submit</button>
           </div>
-          {error && error.response && <div> {error.response.data} </div>}
         </form>
         <div className="oauth">
           <a href="/auth/google">Login with Google</a>

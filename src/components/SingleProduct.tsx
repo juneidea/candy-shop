@@ -1,14 +1,36 @@
 import React, { useEffect, useState} from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 
-import Reviews from './Reviews'
+import Reviews, {Product, Image} from './Reviews'
 import {postItems, updateItemQuantity} from './updateCart'
 
-const SingleProduct = ({cart, setCart}) => {
+export type CartItems = {
+  id: number,
+  stockId: number,
+  quantity: number,
+}
+
+export type Address = {
+  id: number,
+  firstName: string,
+  lastName: string,
+  street: string,
+  city: string,
+  state: string,
+  zip: string
+}
+
+export type Cart = {
+  id: number,
+  items: [CartItems],
+  address: Address | null,
+}
+
+const SingleProduct: React.FunctionComponent<{ cart: Cart , setCart: () => void }> = ({cart, setCart}) => {
   const navigate = useNavigate()
   const params = useParams()
-  const [product, setProduct] = useState({})
-  const [imagesArray, setImagesArray] = useState([])
+  const [product, setProduct] = useState<Product>()
+  const [imagesArray, setImagesArray] = useState<[Image] | []>([])
 
   useEffect(() => {
     fetch(`/api/stocks/${params.id}`).then((res) => res.json()).then((data) => {
@@ -17,20 +39,20 @@ const SingleProduct = ({cart, setCart}) => {
     })
   },[params])
 
-  const addUp = id => {
-    const qty = document.getElementsByName(`q${id}`);
+  const addUp = (id: number) => {
+    const qty: any = document.getElementsByName(`q${id}`);
     let value = Number(qty[0].value);
     qty[0].value = value + 1;
   };
-  const cutDown = id => {
-    const qty = document.getElementsByName(`q${id}`);
+  const cutDown = (id: number) => {
+    const qty: any = document.getElementsByName(`q${id}`);
     let value = Number(qty[0].value);
     if (value > 1) qty[0].value = value - 1;
     else qty[0].value = 1;
   };
 
-  const submitResult = stockId => {
-    const qty = document.getElementsByName(`q${stockId}`);
+  const submitResult = (stockId: number) => {
+    const qty: any = document.getElementsByName(`q${stockId}`);
     const value = Number(qty[0].value);
     const cartId = cart.id;
       if (cart.items.filter(stock => stock.stockId === stockId)[0]) {
@@ -58,13 +80,13 @@ const SingleProduct = ({cart, setCart}) => {
             setCart
           });
         } else {
-          cart.items.push({stockId, quantity: value})
+          cart.items.push({id: cart.id, stockId, quantity: value})
         }
       }
       navigate("/")
   };
 
-  function currentDiv(n) {
+  function currentDiv(n: number) {
     let slideIndex = n;
     let x = document.getElementsByClassName('mySlides');
     var dots = document.getElementsByClassName('demo');
@@ -90,7 +112,7 @@ const SingleProduct = ({cart, setCart}) => {
       <div className="single-outline">
         <div className="productName">
           {product && product.name && <h1><span>{product.name.toUpperCase()}</span><br/><span>{'$' + product.price}</span></h1>}
-          <div className="qty-bar2">
+          {product && <div className="qty-bar2">
             <span className="qty-text2">QTY</span>
             <input
               type="text"
@@ -114,15 +136,15 @@ const SingleProduct = ({cart, setCart}) => {
             >
               +
             </span>
-          </div>
-          <button
+          </div>}
+          {product && <button
             onClick={() => {
               submitResult(product.id);
             }}
             type="button"
           >
             ADD TO BAG
-          </button>
+          </button>}
           <Link to="/">
             <button
               type="button"
@@ -134,17 +156,18 @@ const SingleProduct = ({cart, setCart}) => {
         </div>
 
         <div className="s-outline">
-          {imagesArray[0] &&
-            imagesArray.map(m => {
-              return (
+          {imagesArray.map(m => {
+              return imagesArray[0] ? 
+              (
                 <div key={m.id}>
                   <img
                     className={m.id === imagesArray[0].id ? 'mySlides' : 'mySlides hide'}
                     src={m.imageUrl}
-                    alt={m.name}
+                    alt={m.imageUrl}
                   />
                 </div>
-              );
+              ) : 
+              (<></>);
             })}
 
           <div className="s-row">
@@ -159,7 +182,7 @@ const SingleProduct = ({cart, setCart}) => {
                           : 'demo opacity hover-opacity-off'
                       }
                       src={m.imageUrl}
-                      alt={m.name}
+                      alt={m.imageUrl}
                       onClick={() => {
                         currentDiv(i + 1);
                       }}
@@ -178,9 +201,9 @@ const SingleProduct = ({cart, setCart}) => {
           </p>
           <hr />
           <h4>WHY YOU WANT THIS</h4>
-          <p>{product.description}</p>
+          {product && <p>{product.description}</p>}
           <hr />
-          <Reviews product={product} />
+          {product && <Reviews product={product} />}
         </div>
       </div>
     </div>

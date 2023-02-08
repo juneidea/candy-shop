@@ -3,21 +3,27 @@ import React, {useEffect, useState} from 'react';
 import Stars from './Stars';
 
 export type Rating = {
-  id: Number,
-  rating_num: Number,
-  review_text: String
+  id: number,
+  rating_num: number,
+  review_text: string
 }
 
-export type Products = {
-  id: Number,
-  name: String,
-  description: String,
-  quantity: Number,
-  price: Number,
-  ratings: [Rating]
+export type Image = {
+  id: number
+  imageUrl: string
 }
 
-const Reviews: React.FunctionComponent<{ product: Products }> = ({product}) => {
+export type Product = {
+  id: number,
+  name: string,
+  description: string,
+  quantity: number,
+  price: number,
+  ratings: [Rating],
+  images: [Image]
+}
+
+const Reviews: React.FunctionComponent<{ product: Product }> = ({product}) => {
   const [ratings, setRatings] = useState<Rating[] | []>([])
   const [r_text, setR_text] = useState('')
   const [r_num, setR_num] = useState(0)

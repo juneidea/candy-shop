@@ -1,7 +1,6 @@
 import React from 'react';
 
-const Stars: React.FunctionComponent<{ stars: Number }> = ({stars}) => {
-  console.log('s', stars)
+const Stars: React.FunctionComponent<{ stars: number }> = ({stars}) => {
   if (stars === 1) {
     return <h3>★☆☆☆☆</h3>;
   } else if (stars === 2) {

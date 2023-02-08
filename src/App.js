@@ -63,7 +63,7 @@ const App = () => {
       <Routes>
         <Route path='/' element={<AllProducts products={products} cart={cart} setCart={setCart}/>} />
         <Route exact path='/product/:id' element={<SingleProduct cart={cart} setCart={setCart} />} />
-        <Route path='/login' element={<Login handleSubmit={userSubmit} error={{}} />} />
+        <Route path='/login' element={<Login handleSubmit={userSubmit} />} />
         <Route path='/cart' element={<Cart products={products} cart={cart} setCart={setCart} />} />
         <Route path='/checkout' element={<Checkout cart={cart} />} />
         <Route path='/thankyou' element={<Thankyou products={products} cart={cart} setCart={setCart} />} />
