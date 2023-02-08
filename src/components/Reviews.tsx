@@ -1,9 +1,24 @@
 import React, {useEffect, useState} from 'react';
 
-import Stars from './stars';
+import Stars from './Stars';
 
-const Reviews = ({product}) => {
-  const [ratings, setRatings] = useState([])
+export type Rating = {
+  id: Number,
+  rating_num: Number,
+  review_text: String
+}
+
+export type Products = {
+  id: Number,
+  name: String,
+  description: String,
+  quantity: Number,
+  price: Number,
+  ratings: [Rating]
+}
+
+const Reviews: React.FunctionComponent<{ product: Products }> = ({product}) => {
+  const [ratings, setRatings] = useState<Rating[] | []>([])
   const [r_text, setR_text] = useState('')
   const [r_num, setR_num] = useState(0)
   useEffect(() => {
@@ -15,7 +30,7 @@ const Reviews = ({product}) => {
         ratings.map(rating => {
           const { review_text, rating_num, id } = rating;
           return (
-            <div key={id}>
+            <div key={`key${id}`}>
               <Stars stars={rating_num} />
               <p>{review_text}</p>
             </div>
@@ -38,7 +53,7 @@ const Reviews = ({product}) => {
               stockId: product.id,
               rating_num: r_num
             })
-          }).then((res) => res.json()).then((newRating) => {
+          }).then((res) => res.json()).then((newRating: Rating) => {
             setRatings([...ratings, newRating])
           })
         }}
@@ -50,7 +65,7 @@ const Reviews = ({product}) => {
           type="number"
           min="1"
           max="5"
-          onChange={evt => setR_num(evt.target.value)}
+          onChange={evt => setR_num(Number(evt.target.value))}
           value={r_num}
         />
         <br />

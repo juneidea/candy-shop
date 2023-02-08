@@ -26,11 +26,6 @@ const Stock = db.define('stocks', {
     allowNull: false,
     defaultValue: 0.99
   },
-  brand: {
-    type: Sequelize.STRING,
-    allowNull: false,
-    defaultValue: 'CandyShop'
-  }
 });
 
 module.exports = Stock;
