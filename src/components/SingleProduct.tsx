@@ -26,11 +26,23 @@ export type Cart = {
   address: Address | null,
 }
 
+export const addUp = (id: number) => {
+  const qty: any = document.getElementsByName(`q${id}`);
+  let value = Number(qty[0].value);
+  qty[0].value = value + 1;
+};
+export const cutDown = (id: number) => {
+  const qty: any = document.getElementsByName(`q${id}`);
+  let value = Number(qty[0].value);
+  if (value > 1) qty[0].value = value - 1;
+  else qty[0].value = 1;
+};
+
 const SingleProduct: React.FunctionComponent<{ cart: Cart , setCart: () => void }> = ({cart, setCart}) => {
   const navigate = useNavigate()
   const params = useParams()
   const [product, setProduct] = useState<Product>()
-  const [imagesArray, setImagesArray] = useState<[Image] | []>([])
+  const [imagesArray, setImagesArray] = useState<Image[] | []>([])
 
   useEffect(() => {
     fetch(`/api/stocks/${params.id}`).then((res) => res.json()).then((data) => {
@@ -38,18 +50,6 @@ const SingleProduct: React.FunctionComponent<{ cart: Cart , setCart: () => void 
       setImagesArray(data.images)
     })
   },[params])
-
-  const addUp = (id: number) => {
-    const qty: any = document.getElementsByName(`q${id}`);
-    let value = Number(qty[0].value);
-    qty[0].value = value + 1;
-  };
-  const cutDown = (id: number) => {
-    const qty: any = document.getElementsByName(`q${id}`);
-    let value = Number(qty[0].value);
-    if (value > 1) qty[0].value = value - 1;
-    else qty[0].value = 1;
-  };
 
   const submitResult = (stockId: number) => {
     const qty: any = document.getElementsByName(`q${stockId}`);

@@ -2,29 +2,19 @@ import React from 'react';
 import {Link} from 'react-router-dom'
 
 import {postItems, updateItemQuantity} from './updateCart'
+import {addUp, cutDown, Cart} from './SingleProduct'
+import {Product} from './Reviews'
 
-const CardView = ({product, cart, setCart}) => {
-  const addUp = id => {
-    const qty = document.getElementsByName(`q${id}`);
-    let value = Number(qty[0].value);
-    qty[0].value = value + 1;
-  };
-  const cutDown = id => {
-    const qty = document.getElementsByName(`q${id}`);
-    let value = Number(qty[0].value);
-    if (value > 1) qty[0].value = value - 1;
-    else qty[0].value = 1;
-  };
-
-  const submitResult = stockId => {
-    const qty = document.getElementsByName(`q${stockId}`);
+const CardView: React.FunctionComponent<{product: Product, cart: Cart, setCart: (cart: Cart) => void }> = ({product, cart, setCart}) => {
+  const submitResult = (stockId: number) => {
+    const qty: any = document.getElementsByName(`q${stockId}`);
     const value = Number(qty[0].value);
     const cartId = cart.id;
     if (cart.items.filter(stock => stock.stockId === stockId)[0]) {
       const quantity =
         cart.items.filter(stock => stock.stockId === stockId)[0].quantity +
         value;
-      if (cartId) {
+      if (cartId >= 0) {
         updateItemQuantity({
           stockId,
           cartId,
@@ -35,7 +25,7 @@ const CardView = ({product, cart, setCart}) => {
         cart.items.forEach(item => {
           if (item.stockId === stockId) item.quantity = quantity
         })
-        setCart({items: [...cart.items]})
+        setCart({id: cart.id, items: [...cart.items], address: cart.address})
       };
     } else {
       if (cartId) {
@@ -44,9 +34,10 @@ const CardView = ({product, cart, setCart}) => {
           cartId,
           quantity: value,
           setCart
-        });
+        })
       } else {
-        setCart({items: [...cart.items, {stockId, quantity: value}]})
+        cart.items.push({id: -1, stockId, quantity: value})
+        setCart({id: cart.id, items: cart.items, address: cart.address})
       }
     }
   };

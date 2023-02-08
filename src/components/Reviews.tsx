@@ -13,14 +13,20 @@ export type Image = {
   imageUrl: string
 }
 
+export type Category = {
+  id: number, 
+  category_name: string
+}
+
 export type Product = {
   id: number,
   name: string,
   description: string,
   quantity: number,
   price: number,
-  ratings: [Rating],
-  images: [Image]
+  ratings: Rating[],
+  images: Image[],
+  categories: Category[]
 }
 
 const Reviews: React.FunctionComponent<{ product: Product }> = ({product}) => {

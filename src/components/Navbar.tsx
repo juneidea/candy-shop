@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
 
-const Navbar = ({userLogout, cart}) => {
+import {Cart} from './SingleProduct'
+
+const Navbar: React.FunctionComponent<{userLogout: () => void, cart: Cart}> = ({userLogout, cart}) => {
   const userName = sessionStorage.getItem('candyStar')
   return (
     <div className="nav-outline">

@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 
 const Login: React.FunctionComponent<{handleSubmit: () => void}> = ({handleSubmit}) => {
   const [guest, setGuest] = useState(true)
-  const [warning, setWarning] = useState('!= candy')
+  const [warning, setWarning] = useState(' != candy')
 
   return (
     <div className="outline">

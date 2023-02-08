@@ -1,9 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import CardView from './CardView';
 import SideBar from './SideBar';
+import {Cart} from './SingleProduct'
+import {Product} from './Reviews'
 
-const AllProducts = ({products, cart, setCart}) => {
-  const [filteredProducts, setFilteredProducts] = useState([])
+const AllProducts: React.FunctionComponent<{products: Product[], cart: Cart, setCart: (cart: Cart) => void}> = ({products, cart, setCart}) => {
+  const [filteredProducts, setFilteredProducts] = useState<Product[] | []>([])
   useEffect(() => {
     setFilteredProducts(products)
   }, [products])

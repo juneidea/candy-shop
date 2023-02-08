@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import StateSelector from './StateSelector'
 
-const AddressForm = ({setShipping}) => {
-  const [address, setAddress] = useState({id: null, firstName: '', lastName: '', street: '', city: '', state: '', zip: '' })
-  const [savedAddress, setSavedAddress] = useState([])
+import {Address} from './SingleProduct'
+
+const AddressForm: React.FunctionComponent<{setShipping: (address: Address) => void}> = ({setShipping}) => {
+  const [address, setAddress] = useState<Address>({id: -1, firstName: '', lastName: '', street: '', city: '', state: '', zip: '' })
+  const [savedAddress, setSavedAddress] = useState<Address[] | []>([])
   useEffect(() => {
-    fetch('/api/users/address').then((res) => res.json()).then((data) => {
+    fetch('/api/users/address').then((res) => res.json()).then((data: Address[]) => {
       if (data[0]) {
         setSavedAddress(data.sort((a, b) => b.id - a.id))
       }
@@ -13,11 +15,11 @@ const AddressForm = ({setShipping}) => {
   },[])
   useEffect(() => {
     if (savedAddress[0]) {
-      setAddress({firstName: savedAddress[0].firstName, lastName: savedAddress[0].lastName, street: savedAddress[0].street, city: savedAddress[0].city, state: savedAddress[0].state, zip: savedAddress[0].zip })
+      setAddress({id: savedAddress[0].id, firstName: savedAddress[0].firstName, lastName: savedAddress[0].lastName, street: savedAddress[0].street, city: savedAddress[0].city, state: savedAddress[0].state, zip: savedAddress[0].zip })
     }
   }, [savedAddress])
 
-  const handleChange = evt => {
+  const handleChange = (evt: any) => {
     if (evt.target.name) {
       setAddress({
         ...address,
@@ -31,15 +33,15 @@ const AddressForm = ({setShipping}) => {
     }
   }
 
-  const handleSelectChange = evt => {
+  const handleSelectChange = (evt: any) => {
     const [address] = savedAddress.filter(
       a => a.id === Number(evt.target.value)
     )
-    const { firstName, lastName, street, city, state, zip } = address
-    setAddress({ street, firstName, lastName, city, state, zip })
+    const { id, firstName, lastName, street, city, state, zip } = address
+    setAddress({ id, street, firstName, lastName, city, state, zip })
   }
 
-  const handleSubmit = evt => {
+  const handleSubmit = (evt: any) => {
     evt.preventDefault()
     const { firstName, lastName, street, city, state, zip } = address
     if (firstName && lastName && street && city && state && zip){
