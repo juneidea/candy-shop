@@ -3,18 +3,19 @@ import {Routes, Route, useNavigate } from 'react-router-dom'
 
 import Navbar from './components/Navbar'
 import AllProducts from './components/AllProducts'
-import SingleProduct from './components/SingleProduct'
+import SingleProduct, {Cart as CartType}  from './components/SingleProduct'
 import Login from './components/Login'
 import Cart from './components/Cart'
 import Checkout from './components/Checkout'
 import Thankyou from './components/ThankYou'
 import {post, replaceCart} from './components/updateCart'
 import Admin from './admin/Admin'
+import {Product} from './components/Reviews'
 
-const App = () => {
+const App: React.FunctionComponent = () => {
   const navigate = useNavigate()
-  const [products, setProducts] = useState([])
-  const [cart, setCart] = useState({items: []})
+  const [products, setProducts] = useState<Product[] | []>([])
+  const [cart, setCart] = useState<CartType>({id: null, items: [], address: null})
   useEffect(() => {
     fetch('/api/stocks').then((res) => res.json()).then((data) => {
       setProducts(data)
@@ -26,15 +27,15 @@ const App = () => {
     }
   },[])
 
-  const userSubmit = event => {
-    event.preventDefault()
+  const userSubmit = (evt: any) => {
+    evt.preventDefault()
     fetch('/auth/login', {
       ...post,
       body: JSON.stringify({        
-        password: event.target[1].value,
-        email: event.target[0].value,
-        username: event.target[0].value,
-        guest: event.target[2].checked
+        password: evt.target[1].value,
+        email: evt.target[0].value,
+        username: evt.target[0].value,
+        guest: evt.target[2].checked
       })
     }).then((res) => res.json()).then((data) => {
       if (data.isAdmin) {
@@ -52,7 +53,7 @@ const App = () => {
       ...post,
     }).then(() => {
       sessionStorage.removeItem('candyStar')
-      setCart({items: []})
+      setCart({id: null, items: [], address: null})
       navigate("/")
     })
   }
@@ -62,7 +63,7 @@ const App = () => {
       <Navbar userLogout={userLogout} cart={cart} />
       <Routes>
         <Route path='/' element={<AllProducts products={products} cart={cart} setCart={setCart}/>} />
-        <Route exact path='/product/:id' element={<SingleProduct cart={cart} setCart={setCart} />} />
+        <Route path='/product/:id' element={<SingleProduct cart={cart} setCart={setCart} />} />
         <Route path='/login' element={<Login handleSubmit={userSubmit} />} />
         <Route path='/cart' element={<Cart products={products} cart={cart} setCart={setCart} />} />
         <Route path='/checkout' element={<Checkout cart={cart} />} />

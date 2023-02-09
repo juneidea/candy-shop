@@ -14,7 +14,7 @@ const CardView: React.FunctionComponent<{product: Product, cart: Cart, setCart: 
       const quantity =
         cart.items.filter(stock => stock.stockId === stockId)[0].quantity +
         value;
-      if (cartId >= 0) {
+      if (cartId) {
         updateItemQuantity({
           stockId,
           cartId,
@@ -28,7 +28,7 @@ const CardView: React.FunctionComponent<{product: Product, cart: Cart, setCart: 
         setCart({id: cart.id, items: [...cart.items], address: cart.address})
       };
     } else {
-      if (cartId >= 0) {
+      if (cartId) {
         postItems({
           stockId,
           cartId,
@@ -36,7 +36,7 @@ const CardView: React.FunctionComponent<{product: Product, cart: Cart, setCart: 
           setCart
         })
       } else {
-        cart.items.push({id: -1, stockId, quantity: value})
+        cart.items.push({id: null, cartId: null, stockId, quantity: value})
         setCart({id: cart.id, items: cart.items, address: cart.address})
       }
     }

@@ -5,7 +5,8 @@ import Reviews, {Product, Image} from './Reviews'
 import {postItems, updateItemQuantity} from './updateCart'
 
 export type CartItems = {
-  id: number,
+  id: number | null,
+  cartId: number | null,
   stockId: number,
   quantity: number,
 }
@@ -21,7 +22,7 @@ export type Address = {
 }
 
 export type Cart = {
-  id: number,
+  id: number | null,
   items: CartItems[],
   address: Address | null,
 }
@@ -59,7 +60,7 @@ const SingleProduct: React.FunctionComponent<{ cart: Cart , setCart: (cart: Cart
         const quantity =
           cart.items.filter(stock => stock.stockId === stockId)[0].quantity +
           value;
-        if (cartId >= 0) {
+        if (cartId) {
           updateItemQuantity({
             stockId,
             cartId,
@@ -72,7 +73,7 @@ const SingleProduct: React.FunctionComponent<{ cart: Cart , setCart: (cart: Cart
           })
         };
       } else {
-        if (cartId >= 0) {
+        if (cartId) {
           postItems({
             stockId,
             cartId,
@@ -80,7 +81,7 @@ const SingleProduct: React.FunctionComponent<{ cart: Cart , setCart: (cart: Cart
             setCart
           });
         } else {
-          cart.items.push({id: cart.id, stockId, quantity: value})
+          cart.items.push({id: cart.id, cartId: cart.id, stockId, quantity: value})
         }
       }
       navigate("/")

@@ -1,14 +1,20 @@
 import React, {useEffect, useState} from 'react'
 
-const Admin = () => {
-  const [Admins, setAdmins] = useState([])
+export type User = {
+  id: number,
+  email: string,
+  isAdmin: boolean
+}
+
+const Admin: React.FunctionComponent = () => {
+  const [Admins, setAdmins] = useState<User[] | []>([])
   useEffect(() => {
     fetch('/api/users/admin').then((res) => res.json()).then((data) => {
       setAdmins(data)
     })
   },[])
 
-  const onSubmit = (evt) => {
+  const onSubmit = (evt: any) => {
     fetch('/api/users/admin', {
       method: 'POST',
       headers: {
@@ -24,7 +30,7 @@ const Admin = () => {
     })
   }
 
-  const onDelete = (id) => {
+  const onDelete = (id: number) => {
     fetch(`/api/users/${id}`, {
       method: 'DELETE',
       headers: {
