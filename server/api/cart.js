@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { CartItems, Cart, Stock, Address, Order } = require('../db/models')
+const { CartItems, Cart, Address, Order } = require('../db/models')
 // const nodemailer = require('nodemailer')
 module.exports = router
 
@@ -138,56 +138,6 @@ router.delete('/:cartId', async (req, res, next) => {
       where: { cartId: req.params.cartId }
     })
     res.status(200).json({id:req.params.cartId, items: cartItems})
-  } catch (err) {
-    next(err)
-  }
-})
-
-
-router.post('/sendemail', async (req, res, next) => {
-  try {
-    // const account = await nodemailer.createTestAccount()
-    // const mailOptions = {
-    //   from: 'noahbechtel@gmail.com', // sender address
-    //   to: req.body.email,
-    //   subject: 'Thankk You For Your Order! ✔',
-    //   text: 'Your order is on its way!'
-    // }
-    // const transporter = nodemailer.createTransport({
-    //   host: 'smtp.ethereal.email',
-    //   port: 587,
-    //   secure: false, // true for 465, false for other ports
-    //   auth: {
-    //     user: account.user, // generated ethereal user
-    //     pass: account.pass // generated ethereal password
-    //   }
-    // })
-    // const info = await transporter.sendMail(mailOptions)
-    // console.error(info)
-    res.sendStatus(200)
-  } catch (err) {
-    next(err)
-  }
-})
-
-// Admin access to purchased carts
-// Actual path:
-// api/cart/coitems/admin
-
-router.get('/coitems/admin', async (req, res, next) => {
-  try {
-    const checkedOut = await CartItems.findAll({
-      include: [
-        {
-          model: Cart,
-          where: { isPurchased: true },
-          include: [{ model: Order }]
-        },
-        { model: Stock }
-      ]
-    })
-    // console.log('checkedOut', checkedOut)
-    res.status(200).json(checkedOut)
   } catch (err) {
     next(err)
   }

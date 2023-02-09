@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Stock, Rating } = require('../db/models');
+const { Rating } = require('../db/models');
 module.exports = router;
 
 // Actual path: /api/reviews/

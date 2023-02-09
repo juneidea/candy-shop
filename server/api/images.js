@@ -1,6 +1,5 @@
 const router = require('express').Router();
 const { Images } = require('../db/models');
-const { requireLogin, requireAdmin } = require('./util');
 module.exports = router;
 
 router.get('/:imageId', async (req, res, next) => {

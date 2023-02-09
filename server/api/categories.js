@@ -1,8 +1,6 @@
 const router = require('express').Router();
 const { Category, Stock, Images } = require('../db/models');
 
-const { requireLogin, requireAdmin } = require('./util');
-
 module.exports = router;
 
 // Actual path: /api/categories/

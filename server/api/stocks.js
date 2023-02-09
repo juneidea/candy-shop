@@ -47,19 +47,20 @@ router.get('/:stockId', async (req, res, next) => {
 
 // Actual path: /api/stocks
 // Create a new candy product(stock).
-// Accessibility: For Admin only. (Need to add..)
+// Accessibility: For Admin only
 router.post('/', async (req, res, next) => {
   try {
-    // Edwin's Comment: Is the whole req.body what we want? Or is there a different form we would prefer?
-    const newCandy = await Stock.create({
-      name: req.body.name,
-      description: req.body.description,
-      quantity: req.body.quantity,
-      price: req.body.price,
-      brand: req.body.brand,
-      images: [{ id: 0, imageUrl: '/images/candy10-1.png' }]
-    });
-    res.status(200).json(newCandy);
+    if (req.user.dataValues.isAdmin) {
+      const newCandy = await Stock.create({
+        name: req.body.name,
+        description: req.body.description,
+        quantity: req.body.quantity,
+        price: req.body.price,
+        brand: req.body.brand,
+        images: [{ id: 0, imageUrl: '/images/candy10-1.png' }]
+      });
+      res.status(200).json(newCandy);
+    }
   } catch (err) {
     next(err);
   }
@@ -67,12 +68,14 @@ router.post('/', async (req, res, next) => {
 
 // Actual path: /api/stocks/:stockId
 // Updating an existing candy
-// Accessibility: For Admin only. (Need to add..)
+// Accessibility: For Admin only
 router.put('/:stockId', async (req, res, next) => {
   try {
-    const oldCandy = await Stock.findByPk(req.params.stockId);
-    const updatedCandy = await oldCandy.update(req.body);
-    res.status(200).json(updatedCandy);
+    if (req.user.dataValues.isAdmin) {
+      const oldCandy = await Stock.findByPk(req.params.stockId);
+      const updatedCandy = await oldCandy.update(req.body);
+      res.status(200).json(updatedCandy);
+    }
   } catch (err) {
     next(err);
   }
@@ -80,14 +83,16 @@ router.put('/:stockId', async (req, res, next) => {
 
 // Actual path: /api/stocks/:stockId
 // Deleting an existing candy
-// Accessibility: For Admin only. (Need to add..)
+// Accessibility: For Admin only
 router.delete('/:stockId', async (req, res, next) => {
   try {
-    await Stock.destroy({
-      where: {
-        id: req.params.stockId
-      }
-    });
+    if (req.user.dataValues.isAdmin) {
+      await Stock.destroy({
+        where: {
+          id: req.params.stockId
+        }
+      });
+    }
     res.sendStatus(200);
   } catch (err) {
     next(err);
