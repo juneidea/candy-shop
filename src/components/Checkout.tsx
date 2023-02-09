@@ -1,11 +1,13 @@
 import React, {useState} from 'react'
 import AddressForm from './AddressForm'
+import {Address, Cart} from './SingleProduct'
 
-const Checkout = ({cart}) => {
-  const [shipping, setShipping] = useState({street: ''})
+const Checkout: React.FunctionComponent<{cart: Cart}> = ({cart}) => {
+  const defaultAddress = {id: -1, firstName: '', lastName: '', street: '', city: '', state: '', zip: '' }
+  const [shipping, setShipping] = useState<Address>(defaultAddress)
 
-  const postPayment = async (e) => {
-    e.preventDefault()
+  const postPayment = async (evt: any) => {
+    evt.preventDefault()
     fetch('/api/payment', {
       method: 'POST',
       headers: { 
@@ -36,7 +38,7 @@ const Checkout = ({cart}) => {
                 <p><b>Name: </b>{`${shipping.firstName} ${shipping.lastName}`}</p>
                 <p><b>Address: </b>{`${shipping.street}`}</p>
                 <p><b>City: </b>{`${shipping.city} ${shipping.state}, ${shipping.zip}`}</p>
-                <div className="shipping-edit" onClick={() => setShipping({street: ''})}>Change</div>
+                <div className="shipping-edit" onClick={() => setShipping(defaultAddress)}>Change</div>
               </div>
               <div className='test-payment'>
                 <button className="checkout-button" onClick={e => postPayment(e)}>Payment</button>

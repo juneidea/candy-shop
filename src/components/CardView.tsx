@@ -28,7 +28,7 @@ const CardView: React.FunctionComponent<{product: Product, cart: Cart, setCart: 
         setCart({id: cart.id, items: [...cart.items], address: cart.address})
       };
     } else {
-      if (cartId) {
+      if (cartId >= 0) {
         postItems({
           stockId,
           cartId,

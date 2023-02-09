@@ -22,7 +22,7 @@ export type Address = {
 
 export type Cart = {
   id: number,
-  items: [CartItems],
+  items: CartItems[],
   address: Address | null,
 }
 
@@ -38,7 +38,7 @@ export const cutDown = (id: number) => {
   else qty[0].value = 1;
 };
 
-const SingleProduct: React.FunctionComponent<{ cart: Cart , setCart: () => void }> = ({cart, setCart}) => {
+const SingleProduct: React.FunctionComponent<{ cart: Cart , setCart: (cart: Cart) => void }> = ({cart, setCart}) => {
   const navigate = useNavigate()
   const params = useParams()
   const [product, setProduct] = useState<Product>()
@@ -59,7 +59,7 @@ const SingleProduct: React.FunctionComponent<{ cart: Cart , setCart: () => void 
         const quantity =
           cart.items.filter(stock => stock.stockId === stockId)[0].quantity +
           value;
-        if (cartId) {
+        if (cartId >= 0) {
           updateItemQuantity({
             stockId,
             cartId,
@@ -72,7 +72,7 @@ const SingleProduct: React.FunctionComponent<{ cart: Cart , setCart: () => void 
           })
         };
       } else {
-        if (cartId) {
+        if (cartId >= 0) {
           postItems({
             stockId,
             cartId,

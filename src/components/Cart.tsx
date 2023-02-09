@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
+
+import {Cart as CartType, CartItems} from './SingleProduct'
+import {Product} from './Reviews'
 import {removeItems, updateItemQuantity} from './updateCart'
 
-const Cart = ({products, cart, setCart}) => {
+const Cart: React.FunctionComponent<{products: Product[], cart: CartType, setCart: (cart:CartType) => void}> = ({products, cart, setCart}) => {
   let totalBag = 0
   const userName = sessionStorage.getItem('candyStar')
-  const [items, setItems] = useState([])
+  const [items, setItems] = useState<CartItems[] | []>([])
   useEffect(() => {
     if (cart) setItems(cart.items)
   }, [cart])
 
-  const handleChange = (item) => {
+  const handleChange = (item: CartItems) => {
     if (item.quantity > 0) updateItemQuantity({cartId: cart.id, stockId: item.stockId, quantity: item.quantity, setCart: setCart})
   }
 

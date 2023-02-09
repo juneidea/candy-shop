@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 
-const Login: React.FunctionComponent<{handleSubmit: () => void}> = ({handleSubmit}) => {
+const Login: React.FunctionComponent<{handleSubmit: (evt: any) => void}> = ({handleSubmit}) => {
   const [guest, setGuest] = useState(true)
   const [warning, setWarning] = useState(' != candy')
 

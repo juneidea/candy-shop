@@ -1,10 +1,13 @@
 import React, {useEffect, useState} from 'react'
 
+import {Cart} from './SingleProduct'
+import {Product} from './Reviews'
+
 // Getting to this page will get a new cart and saved the old cart with isPurchased = true
 // Though purchasing still need to be verified on the payment side from Stripe.com
-const ThankYou = ({products, cart, setCart}) => {
+const ThankYou: React.FunctionComponent<{products: Product[], cart: Cart, setCart: (cart: Cart) => void}> = ({products, cart, setCart}) => {
   let totalBag = 0
-  const [purchasedCart, setPurchasedCart] = useState({items: []})
+  const [purchasedCart, setPurchasedCart] = useState<Cart>(cart)
   useEffect(() => {
     if (cart.items.length > 0) {
       setPurchasedCart(cart)
