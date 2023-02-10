@@ -33,8 +33,8 @@ const Login: React.FunctionComponent<{handleSubmit: (evt: any) => void}> = ({han
           </div>
         </form>
         <div className="oauth">
-          <a href="/auth/google">Login with Google</a>
-        </div>  
+          {/* {!guest && <a href="/auth/google">Login with Google</a>} */}
+        </div>
       </div>
     </div>
   );

@@ -60,9 +60,6 @@ ul hr {
   position: fixed;
   background-color: white;
   top: 0;
-  left: 50%;
-  margin-left: -730px;
-  padding-left: 200px;
   display: flex;
   width: 100vw;
   z-index: 3;
@@ -190,7 +187,7 @@ button:focus {
 
 .dropdown2 {
   position: relative;
-  display: flex;
+  display: none;
 }
 .dropdown-content2 {
   display: none;
@@ -297,6 +294,17 @@ button:focus {
   position: absolute;
 }
 
+@media (min-width: 1180px) {
+  .dropdown2 {
+    display: flex;
+  }
+  .navRow {
+    left: 50%;
+    margin-left: -730px;
+    padding-left: 200px;
+  }
+}
+
 /* PART 2 SLIDESHOW*/
 /* PART 2 SLIDESHOW*/
 
@@ -365,9 +373,16 @@ button:focus {
 }
 
 .side-outline {
-  margin-left: 100px;
+  margin-left: 10px;
   margin-top: 30px;
   width: 150px;
+}
+
+
+@media (min-width: 1180px) {
+  .side-outline {
+    margin-left: 100px;
+  }
 }
 
 .side-outline a {
@@ -462,7 +477,7 @@ button:focus {
 
 .card-extend input {
   width: 130px;
-  height: 35px;
+  height: 25px;
   outline: none;
   display: flex;
   margin-left: auto;
@@ -470,6 +485,12 @@ button:focus {
   font-size: 18px;
   font-weight: bold;
   text-align: center;
+}
+
+@media (min-width: 1000px) {
+  .card-extend input {
+    height: 35px;
+  }
 }
 
 .main-category {
@@ -549,7 +570,7 @@ button:focus {
 }
 
 .productName {
-  width: 400px;
+  width: 200px;
   padding-top: 60px;
   display: flex;
   flex-direction: column;
@@ -573,6 +594,12 @@ button:focus {
 
 .review span{
   margin-right: 8px;
+}
+
+@media (max-width: 1000px) {
+  .review {
+    width: 200px;
+  }
 }
 
 .productName button {
@@ -607,7 +634,7 @@ button:focus {
 
 .qty-sign2 {
   color: rgb(57, 149, 185);
-  margin: 0px 10px;
+  margin: 0 5px 0 0;
   font-size: 36px;
   line-height: 32px;
   font-family: Georgia;
@@ -617,7 +644,7 @@ button:focus {
 
 .productName input {
   width: 40px;
-  height: 35px;
+  height: 25px;
   outline: none;
   display: flex;
   margin-left: auto;
@@ -625,6 +652,18 @@ button:focus {
   font-size: 18px;
   font-weight: bold;
   text-align: center;
+}
+
+@media (min-width: 1000px) {
+  .productName {
+    width: 400px
+  }
+  .productName input {
+    height: 35px;
+  }
+  .qty-sign2 {
+    margin: 0px 10px;
+  }
 }
 
 /* PART 5 SIGN-IN*/
@@ -812,7 +851,7 @@ button:focus {
 }
 
 .cart_container {
-  margin: auto;
+  margin: 50px;
 }
 
 .cart_container h3 {
@@ -972,7 +1011,12 @@ button:focus {
   padding: 5px 8px;
 }
 
-
 .test-payment {
   color: rgb(163, 163, 163);
+}
+
+@media (min-width: 1000px) {
+  .cart_container {
+    margin: auto;
+  }
 }

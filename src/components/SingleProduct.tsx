@@ -116,10 +116,11 @@ const SingleProduct: React.FunctionComponent<{ cart: Cart , setCart: (cart: Cart
           {product && <div className="qty-bar2">
             <span className="qty-text2">QTY</span>
             <input
-              type="text"
+              type="number"
               className="qty2"
               name={`q${product.id}`}
               defaultValue="1"
+              min="1"
             />
             <span
               className="qty-sign2"

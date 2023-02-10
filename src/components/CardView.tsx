@@ -62,10 +62,11 @@ const CardView: React.FunctionComponent<{product: Product, cart: Cart, setCart: 
         <div className="qty-bar">
           <span className="qty-text">QTY</span>
           <input
-            type="text"
+            type="number"
             className="qty"
             name={`q${product.id}`}
             defaultValue="1"
+            min="1"
           />
           <span
             className="qty-sign"
