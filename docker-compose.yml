@@ -1,0 +1,36 @@
+version: "3.8"
+
+services:
+  database:
+    image: postgres:14.1-alpine
+    container_name: postgres-0
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=candy-shop
+    healthcheck:
+      test: ["CMD-SHELL", "sh -c 'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}'"]
+      interval: 1s
+      timeout: 1s
+      retries: 5
+    env_file:
+      - .env
+  app:
+    build: .
+    container_name: candy
+    ports:
+      - 8080:8080
+    environment:
+      NODE_ENV: prod
+      DB_USERNAME: postgres
+      DB_PASSWORD: password
+      DB_DATABASE: candy-shop
+      DB_HOST: database
+    env_file:
+      - .env
+    depends_on:
+      database:
+        condition: service_healthy
