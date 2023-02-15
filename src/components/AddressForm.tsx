@@ -4,7 +4,7 @@ import StateSelector from './StateSelector'
 import {Address} from './SingleProduct'
 
 const AddressForm: React.FunctionComponent<{setShipping: (address: Address) => void}> = ({setShipping}) => {
-  const defaultAddress = {id: -1, firstName: '', lastName: '', street: '', city: '', state: '', zip: '' }
+  const defaultAddress = {id: -1, firstName: '', lastName: '', street: '', city: '', state: 'AL', zip: '' }
   const [address, setAddress] = useState<Address>(defaultAddress)
   const [savedAddress, setSavedAddress] = useState<Address[] | []>([])
   useEffect(() => {
